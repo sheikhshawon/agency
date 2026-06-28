@@ -2,153 +2,153 @@
 
 import { motion } from "framer-motion";
 
-/* Figma Group 39475 — Why Choose Us: 3 cards (424x533, corner 30, padding 50/30) */
+/* Arrow icon — small diagonal ↗ */
+function IconArrow() {
+  return (
+    <div style={{
+      width:48, height:48, borderRadius:"50%",
+      display:"flex", alignItems:"center", justifyContent:"center",
+      background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.10)",
+    }}>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M4.5 13.5l9-9M13.5 4.5H6M13.5 4.5v7.5"
+          stroke="rgba(255,255,255,0.80)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
+  );
+}
+
+/* Refresh-circle icon */
+function IconRefresh() {
+  return (
+    <div style={{
+      width:48, height:48, borderRadius:"50%",
+      display:"flex", alignItems:"center", justifyContent:"center",
+      background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.10)",
+    }}>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M6 11a5 5 0 1 0 1.2-3.2" stroke="rgba(255,255,255,0.80)" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+        <path d="M4 5l3.2 2.8L4 11" stroke="rgba(255,255,255,0.80)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        <path d="M14 6l1 2.5 2.5 1-2.5 1L14 13l-1-2.5-2.5-1 2.5-1z" fill="rgba(255,255,255,0.65)"/>
+      </svg>
+    </div>
+  );
+}
+
+/* Large sparkle — fills top portion of Tailored Solutions card */
+function IconSparkle() {
+  return (
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+      <circle cx="36" cy="36" r="35" stroke="rgba(255,255,255,0.10)" strokeWidth="1"/>
+      <path d="M36 18l2.8 13.2L52 36l-13.2 2.8L36 52l-2.8-13.2L20 36l13.2-2.8z"
+        fill="none" stroke="rgba(255,255,255,0.80)" strokeWidth="1.8" strokeLinejoin="round"/>
+      <path d="M54 20l1.2 3.8 3.8 1.2-3.8 1.2-1.2 3.8-1.2-3.8-3.8-1.2 3.8-1.2z"
+        fill="rgba(255,255,255,0.65)"/>
+      <path d="M17 48l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"
+        fill="rgba(255,255,255,0.50)"/>
+      <circle cx="56" cy="44" r="1.5" fill="rgba(255,255,255,0.45)"/>
+      <circle cx="16" cy="22" r="1.2" fill="rgba(255,255,255,0.40)"/>
+    </svg>
+  );
+}
 
 const CARDS = [
   {
-    number: "01",
-    title: "Expert Team",
-    subtitle: "Senior Engineers & Designers",
-    desc: "Our multidisciplinary team of senior engineers, UI/UX designers, and business strategists brings 5+ years of collective experience to every project. We don't just build — we think, plan, and engineer for long-term success.",
-    highlights: [
-      "Senior-level expertise across all disciplines",
-      "Transparent communication throughout",
-      "Agile development with weekly deliverables",
-    ],
-  },
-  {
-    number: "02",
-    title: "Tailored Solutions",
-    subtitle: "Custom-Built for Your Business",
-    desc: "No templates. No shortcuts. Every solution we build is custom-designed to fit your specific business requirements, workflows, and goals. We invest time upfront to understand your business before writing a single line of code.",
-    highlights: [
-      "Deep discovery process for every client",
-      "Architecture designed around your workflows",
-      "Scalable systems that grow with you",
-    ],
-  },
-  {
-    number: "03",
     title: "Proven Results",
-    subtitle: "97% Client Satisfaction Rate",
-    desc: "Our track record speaks for itself. With 500+ projects delivered across industries, we've consistently achieved measurable outcomes — increased revenue, reduced operational costs, and accelerated growth for our clients.",
-    highlights: [
-      "500+ successful projects delivered",
-      "97.3% client retention rate",
-      "Measurable ROI on every engagement",
-    ],
+    desc: "We measure our work by business outcomes, not deliverable checklists. Every project begins with a clear definition of what winning looks like for you, then we engineer backward from that goal. Our client retention rate above 98% reflects the quality of what we deliver.",
+    Icon: IconArrow,
+    mt: "lg:mt-24",
+  },
+  {
+    title: "Expert Teams",
+    desc: "Our team does not generalize across everything. We have dedicated specialists in development, AI, design, and growth, each operating at the top of their discipline. You receive senior-level execution on every layer of your project.",
+    Icon: IconRefresh,
+    mt: "lg:mt-12",
+  },
+  {
+    title: "Tailored Solutions",
+    desc: "Off-the-shelf never fits precisely. We build solutions architected for where your business is going, not just where it is today. Whether you are serving 10 users or 10,000, the foundations we lay are built to scale without rebuilding.",
+    Icon: IconSparkle,
+    mt: "lg:mt-0",
   },
 ];
 
 export default function WhyUsSection() {
   return (
-    <section className="py-20 lg:py-28 bg-[#04051B]">
-      <div className="max-w-[1312px] mx-auto px-6 xl:px-0 flex flex-col gap-14">
+    <section id="why-us" style={{ padding: "80px 0 100px", background: "transparent" }}>
+      <div style={{ maxWidth:1312, margin:"0 auto", padding:"0 24px" }}>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center gap-5 max-w-2xl mx-auto"
-        >
-          <span className="badge" style={{ fontFamily: "var(--font-poppins)" }}>
-            Why Choose Us
-          </span>
-          <h2
-            className="text-[clamp(2rem,4vw,3.4rem)] font-semibold text-white leading-[1.1]"
-            style={{ fontFamily: "var(--font-plus-jakarta)" }}
+        <div style={{ display:"flex", gap:"clamp(32px,6vw,80px)", flexWrap:"wrap" }}>
+
+          {/* LEFT: header */}
+          <motion.div
+            initial={{ opacity:0, y:24 }}
+            whileInView={{ opacity:1, y:0 }}
+            viewport={{ once:true, margin:"-60px" }}
+            transition={{ duration:0.6, ease:[0.16,1,0.3,1] }}
+            style={{ flexShrink:0, width:"clamp(200px,22vw,280px)", display:"flex", flexDirection:"column", gap:16 }}
           >
-            <span className="font-extralight">Empowering</span> Your{" "}
-            <span className="font-extralight">Business</span>
-            <br />
-            with Confidence
-          </h2>
-          <p
-            className="text-white/50 text-[15px] leading-[1.8]"
-            style={{ fontFamily: "var(--font-dm-sans)" }}
-          >
-            Thousands of companies trust Enif IT to deliver technology solutions
-            that actually move the needle. Here's why.
-          </p>
-        </motion.div>
+            <span style={{
+              display:"inline-flex", width:"fit-content",
+              padding:"5px 16px", borderRadius:9999,
+              border:"1px solid rgba(255,255,255,0.14)",
+              background:"rgba(255,255,255,0.04)",
+              fontSize:12, fontFamily:"var(--font-poppins)",
+              color:"rgba(255,255,255,0.55)",
+            }}>
+              Why Choose us?
+            </span>
+            <h2 style={{
+              fontFamily:"var(--font-plus-jakarta)",
+              fontSize:"clamp(1.8rem,3vw,2.8rem)",
+              fontWeight:700, lineHeight:1.15,
+              color:"#fff", margin:0,
+            }}>
+              Empowering Your<br />Business Journey
+            </h2>
+          </motion.div>
 
-        {/* 3 Cards grid — Figma: 424x533, corner 30, padding 50/30 */}
-        <div className="grid md:grid-cols-3 gap-5">
-          {CARDS.map((card, i) => (
-            <motion.div
-              key={card.number}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative rounded-[30px] flex flex-col gap-6 overflow-hidden"
-              style={{
-                padding: "50px 30px",
-                background:
-                  i === 1
-                    ? "linear-gradient(160deg, rgba(42,37,148,0.35) 0%, rgba(4,5,27,0.95) 100%)"
-                    : "rgba(255,255,255,0.025)",
-                border: "1px solid rgba(255,255,255,0.07)",
-              }}
-            >
-              {/* Top glow for middle card */}
-              {i === 1 && (
-                <div
-                  className="absolute top-0 left-0 right-0 h-px"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(42,37,148,0.8), transparent)",
-                  }}
-                />
-              )}
-
-              {/* Number */}
-              <span
-                className="text-[3rem] font-extralight text-white/10 leading-none"
-                style={{ fontFamily: "var(--font-plus-jakarta)" }}
+          {/* RIGHT: 3 staggered cards */}
+          <div style={{ flex:1, minWidth:0, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16, alignItems:"start" }}>
+            {CARDS.map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity:0, y:32 }}
+                whileInView={{ opacity:1, y:0 }}
+                viewport={{ once:true, margin:"-40px" }}
+                transition={{ duration:0.6, delay:i*0.1, ease:[0.16,1,0.3,1] }}
+                style={{
+                  marginTop: i===0 ? "clamp(40px,8vw,96px)" : i===1 ? "clamp(20px,4vw,48px)" : 0,
+                  borderRadius:20,
+                  padding:24,
+                  display:"flex", flexDirection:"column", gap:20,
+                  background:"rgba(8,8,48,0.55)",
+                  border:"1px solid rgba(255,255,255,0.08)",
+                  backdropFilter:"blur(4px)",
+                }}
               >
-                {card.number}
-              </span>
-
-              {/* Text content */}
-              <div className="flex flex-col gap-3">
-                <p
-                  className="text-[12px] text-[#2A2594] font-medium uppercase tracking-widest"
-                  style={{ fontFamily: "var(--font-poppins)" }}
-                >
-                  {card.subtitle}
-                </p>
-                <h3
-                  className="text-[1.5rem] font-semibold text-white leading-[1.2]"
-                  style={{ fontFamily: "var(--font-plus-jakarta)" }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  className="text-white/50 text-[14px] leading-[1.8]"
-                  style={{ fontFamily: "var(--font-dm-sans)" }}
-                >
-                  {card.desc}
-                </p>
-              </div>
-
-              {/* Highlights list */}
-              <ul className="flex flex-col gap-3 mt-auto">
-                {card.highlights.map((h) => (
-                  <li
-                    key={h}
-                    className="flex items-start gap-3 text-[13px] text-white/60"
-                    style={{ fontFamily: "var(--font-dm-sans)" }}
-                  >
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#1560FF] shrink-0" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+                <div style={{ display:"flex", alignItems:"flex-start", justifyContent: i===2 ? "flex-end" : "flex-start" }}>
+                  <card.Icon />
+                </div>
+                <div style={{ display:"flex", flexDirection:"column", gap:10, marginTop:"auto" }}>
+                  <h3 style={{
+                    fontFamily:"var(--font-plus-jakarta)",
+                    fontSize:17, fontWeight:700,
+                    color:"#fff", margin:0, lineHeight:1.25,
+                  }}>
+                    {card.title}
+                  </h3>
+                  <p style={{
+                    fontFamily:"var(--font-dm-sans)",
+                    fontSize:13, lineHeight:1.7,
+                    color:"rgba(255,255,255,0.45)", margin:0,
+                  }}>
+                    {card.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

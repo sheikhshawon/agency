@@ -3,108 +3,111 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-/* Figma Group 39474 — CTA Banner: full-width ellipse gradient, 64px heading */
-
-function Star({ className }: { className?: string }) {
+function Sparkle({ style }: { style?: React.CSSProperties }) {
   return (
-    <svg className={className} viewBox="0 0 20 20" fill="currentColor">
-      <path d="M10 1l2.39 6.26L19 9l-6.61 1.74L10 17l-2.39-6.26L1 9l6.61-1.74L10 1z" />
+    <svg style={{ position:"absolute", pointerEvents:"none", ...style }} viewBox="0 0 20 20" fill="white">
+      <path d="M10 1l1.4 6.6L18 10l-6.6 1.4L10 18l-1.4-6.6L2 10l6.6-1.4z"/>
     </svg>
   );
 }
 
 export default function CTABanner() {
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden bg-[#04051B]">
+    <section style={{ position:"relative", padding:"100px 0 110px", background:"transparent", overflow:"hidden" }}>
 
-      {/* Full-width radial ellipse gradient — Figma's centerpiece glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 100% at 50% 50%, rgba(42,37,148,0.55) 0%, rgba(42,37,148,0.15) 45%, transparent 70%)",
-        }}
-      />
+      {/* Purple radial glow */}
+      <div style={{
+        position:"absolute", inset:0, pointerEvents:"none",
+        background:"radial-gradient(ellipse 85% 100% at 50% 50%, rgba(38,32,160,0.52) 0%, rgba(18,14,80,0.28) 45%, transparent 70%)",
+      }}/>
+      {/* Horizontal fade */}
+      <div style={{
+        position:"absolute", inset:0, pointerEvents:"none",
+        background:"linear-gradient(90deg, rgba(4,5,27,0.90) 0%, transparent 25%, transparent 75%, rgba(4,5,27,0.90) 100%)",
+      }}/>
 
-      {/* Horizontal stripe gradient (navy→indigo→navy) */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, #04051B 0%, rgba(42,37,148,0.25) 50%, #04051B 100%)",
-        }}
-      />
-
-      {/* Dot pattern */}
-      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
-
-      {/* Decorative stars */}
-      <Star className="absolute top-[18%] left-[8%] w-4 h-4 text-white/15 pointer-events-none" />
-      <Star className="absolute top-[22%] right-[10%] w-3 h-3 text-white/12 pointer-events-none" />
-      <Star className="absolute bottom-[20%] left-[14%] w-2.5 h-2.5 text-white/10 pointer-events-none" />
-      <Star className="absolute bottom-[25%] right-[8%] w-4 h-4 text-white/08 pointer-events-none" />
-      <Star className="absolute top-[50%] left-[4%] w-2 h-2 text-white/12 pointer-events-none" />
-      <Star className="absolute top-[45%] right-[5%] w-2 h-2 text-white/10 pointer-events-none" />
+      {/* Sparkle decorations */}
+      <Sparkle style={{ top:"18%", left:"7%",  width:16, height:16, opacity:0.18 }}/>
+      <Sparkle style={{ top:"22%", right:"9%", width:13, height:13, opacity:0.14 }}/>
+      <Sparkle style={{ bottom:"22%", left:"13%",  width:11, height:11, opacity:0.12 }}/>
+      <Sparkle style={{ bottom:"20%", right:"8%",  width:15, height:15, opacity:0.13 }}/>
+      <Sparkle style={{ top:"50%", left:"3%",  width:9,  height:9,  opacity:0.12 }}/>
+      <Sparkle style={{ top:"46%", right:"4%", width:9,  height:9,  opacity:0.10 }}/>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1312px] mx-auto px-6 xl:px-0 flex flex-col items-center text-center gap-8">
+      <div style={{
+        position:"relative", zIndex:1,
+        maxWidth:1312, margin:"0 auto", padding:"0 24px",
+        display:"flex", flexDirection:"column", alignItems:"center",
+        textAlign:"center", gap:24,
+      }}>
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="badge" style={{ fontFamily: "var(--font-poppins)" }}>
-            <Star className="w-3 h-3 text-[#1560FF]" />
-            Ready to Transform?
-          </span>
-        </motion.div>
-
-        {/* Heading — Figma: 64px, weight mix 600/200 */}
+        {/* Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl text-[clamp(2rem,5vw,4rem)] leading-[1.08] text-white"
-          style={{ fontFamily: "var(--font-plus-jakarta)" }}
+          initial={{ opacity:0, y:28 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true, margin:"-60px" }}
+          transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
+          style={{
+            maxWidth:760,
+            fontFamily:"var(--font-plus-jakarta)",
+            fontSize:"clamp(2.2rem,5vw,4.4rem)",
+            lineHeight:1.1, margin:0,
+            color:"#fff",
+          }}
         >
-          <span className="font-semibold">AI-Powered Tools</span>{" "}
-          <span className="font-extralight">For</span>
+          <span style={{ fontWeight:800 }}>Intelligent Tools For</span>
           <br />
-          <span className="font-extralight">Next-Level</span>{" "}
-          <span className="font-semibold">Efficiency</span>
+          <em style={{
+            fontFamily:"Georgia,'Times New Roman',serif",
+            fontStyle:"italic", fontWeight:300,
+          }}>Next-Level</em>
+          <span style={{ fontWeight:800 }}> Business Growth</span>
         </motion.h2>
 
         {/* Description */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-lg text-white/50 text-[15px] leading-[1.8]"
-          style={{ fontFamily: "var(--font-dm-sans)" }}
+          initial={{ opacity:0, y:20 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true, margin:"-60px" }}
+          transition={{ duration:0.6, delay:0.14, ease:[0.16,1,0.3,1] }}
+          style={{
+            maxWidth:460,
+            fontFamily:"var(--font-dm-sans)",
+            fontSize:14, lineHeight:1.8,
+            color:"rgba(255,255,255,0.42)",
+            margin:0,
+          }}
         >
-          Partner with Enif IT to harness the full power of modern technology.
-          Let's build something remarkable together and take your business to
-          the next level.
+          From your first digital product to your next stage of scale, Enif is
+          built for that conversation. Let us map what your transformation looks like.
         </motion.p>
 
-        {/* CTA button — Poppins, border-radius 40px */}
+        {/* CTA — same pill style as hero */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity:0, y:18 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true, margin:"-60px" }}
+          transition={{ duration:0.6, delay:0.24, ease:[0.16,1,0.3,1] }}
         >
           <Link
             href="/contact"
-            className="px-10 py-4 text-[16px] font-medium bg-[#1560FF] text-white rounded-full hover:bg-[#2A2594] transition-all duration-300 shadow-[0_0_40px_rgba(21,96,255,0.5)] hover:shadow-[0_0_60px_rgba(42,37,148,0.6)]"
-            style={{ fontFamily: "var(--font-poppins)" }}
+            style={{
+              display:"inline-block",
+              padding:"13px 40px",
+              borderRadius:9999,
+              border:"1px solid rgba(255,255,255,0.28)",
+              background:"rgba(48,44,130,0.50)",
+              backdropFilter:"blur(6px)",
+              color:"#fff",
+              fontSize:15,
+              fontWeight:500,
+              fontFamily:"var(--font-poppins)",
+              letterSpacing:"0.01em",
+              textDecoration:"none",
+            }}
           >
-            Get Started Today
+            Join With Us
           </Link>
         </motion.div>
       </div>

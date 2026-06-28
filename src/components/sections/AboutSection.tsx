@@ -3,171 +3,138 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-/* Figma Frame 247 — About section: left dark card + right text, scrolling ticker */
-
-const TICKER_ITEMS = [
-  "The Future", "Smart Solutions", "AI Automation",
-  "Web Excellence", "Brand Identity", "Business Growth",
-  "The Future", "Smart Solutions", "AI Automation",
-  "Web Excellence", "Brand Identity", "Business Growth",
+const TAGS = [
+  "+ The Future",
+  "+ Smart Solutions",
+  "+ Scalable Systems",
+  "+ AI-Powered",
+  "+ Future-Ready Tech",
+  "+ Precision Built",
 ];
 
-function TickerBar() {
+function Planet() {
   return (
-    <div className="overflow-hidden border-y border-white/[0.06] py-3">
-      <div
-        className="flex gap-10 items-center whitespace-nowrap"
-        style={{ animation: "marquee 20s linear infinite" }}
-      >
-        {TICKER_ITEMS.map((item, i) => (
-          <span
-            key={i}
-            className="flex items-center gap-4 text-[13px] text-white/30"
-            style={{ fontFamily: "var(--font-poppins)" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2A2594] shrink-0" />
-            {item}
-          </span>
+    <div style={{
+      position: "relative", width: "100%", aspectRatio: "16/10",
+      borderRadius: "12px", overflow: "hidden",
+      background: "linear-gradient(180deg, #080840 0%, #05052c 100%)",
+    }}>
+      {[[12,18],[22,55],[55,14],[68,62],[83,28],[40,72],[88,82],[8,78],[48,38]].map(([x,y],i)=>(
+        <div key={i} style={{
+          position:"absolute", left:`${x}%`, top:`${y}%`,
+          width: i%3===0 ? 2 : 1, height: i%3===0 ? 2 : 1,
+          borderRadius:"50%", background:"white", opacity: 0.35+i*0.04,
+        }}/>
+      ))}
+      <div style={{
+        position:"absolute", width:"clamp(100px,30%,150px)", height:"clamp(100px,30%,150px)",
+        top:"50%", left:"50%", transform:"translate(-50%,-55%)", borderRadius:"50%",
+        background:"radial-gradient(circle at 36% 34%, #7090ff 0%, #2a4ae0 30%, #1030b8 60%, #081080 85%, #040c60 100%)",
+        boxShadow:"0 0 60px rgba(50,80,220,0.65), inset 0 0 24px rgba(120,160,255,0.25)",
+      }}>
+        <div style={{ position:"absolute", inset:0, borderRadius:"50%",
+          background:"radial-gradient(circle at 72% 50%, transparent 42%, rgba(4,5,27,0.65) 54%)" }}/>
+        {[[28,38,20],[52,62,14],[62,28,10]].map(([x,y,r],i)=>(
+          <div key={i} style={{ position:"absolute", left:`${x}%`, top:`${y}%`,
+            width:r, height:r, transform:"translate(-50%,-50%)", borderRadius:"50%", background:"rgba(0,0,0,0.20)" }}/>
         ))}
       </div>
+      <div style={{ position:"absolute", inset:0, pointerEvents:"none",
+        background:"radial-gradient(ellipse 55% 38% at 50% 45%, rgba(40,60,200,0.22) 0%, transparent 70%)" }}/>
     </div>
   );
 }
 
+const TAG_STYLE: React.CSSProperties = {
+  padding:"10px 0", borderRadius:10, textAlign:"center",
+  fontSize:13, fontFamily:"var(--font-dm-sans)", color:"rgba(255,255,255,0.60)",
+  background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
+};
+
 export default function AboutSection() {
   return (
-    <section className="py-20 lg:py-28 bg-[#04051B]">
-      <div className="max-w-[1312px] mx-auto px-6 xl:px-0 flex flex-col gap-16">
+    <section style={{ padding: "80px 0", background: "transparent" }}>
+      <div style={{ maxWidth: 1312, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{
+          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "clamp(32px,5vw,60px)", alignItems: "center",
+        }}>
 
-        {/* Ticker bar */}
-        <TickerBar />
-
-        {/* Two-column layout — Figma Frame 247: left card + right text */}
-        <div className="grid lg:grid-cols-2 gap-10 xl:gap-16 items-center">
-
-          {/* Left — dark card (Figma: bg #04051B, corner-radius 30, padding 45) */}
+          {/* LEFT — dark card with planet + 6 tags */}
           <motion.div
-            initial={{ opacity: 0, x: -32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="relative rounded-[30px] p-10 xl:p-[45px] overflow-hidden"
+            initial={{ opacity:0, x:-32 }}
+            whileInView={{ opacity:1, x:0 }}
+            viewport={{ once:true, margin:"-60px" }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
             style={{
-              background:
-                "linear-gradient(135deg, rgba(42,37,148,0.25) 0%, rgba(4,5,27,0.9) 60%)",
-              border: "1px solid rgba(255,255,255,0.07)",
+              borderRadius: 20, padding: 16, display: "flex", flexDirection: "column", gap: 12,
+              background: "rgba(8,8,48,0.72)", border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            {/* BG glow */}
-            <div
-              className="absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(42,37,148,0.4) 0%, transparent 70%)",
-              }}
-            />
-
-            {/* Badge */}
-            <span className="badge mb-6 inline-flex" style={{ fontFamily: "var(--font-poppins)" }}>
-              About Us
-            </span>
-
-            <h2
-              className="text-[clamp(1.8rem,3.5vw,3.4rem)] font-semibold text-white leading-[1.12] mb-5"
-              style={{ fontFamily: "var(--font-plus-jakarta)" }}
-            >
-              Empowering{" "}
-              <span className="font-extralight">Innovation</span>
-              <br />
-              Our IT{" "}
-              <span className="font-extralight">Journey</span>
-            </h2>
-
-            <p
-              className="text-white/50 text-[14px] leading-[1.8] mb-8"
-              style={{ fontFamily: "var(--font-dm-sans)" }}
-            >
-              Founded with a vision to transform businesses through smart
-              technology, Enif IT Services Ltd. has grown into a premium
-              agency delivering web development, AI automation, and brand
-              design solutions.
-            </p>
-
-            {/* Stats row inside card */}
-            <div className="grid grid-cols-2 gap-5 pt-7 border-t border-white/[0.07]">
-              {[
-                { v: "5+", l: "Years Experience" },
-                { v: "500+", l: "Projects Done" },
-                { v: "50+", l: "Team Members" },
-                { v: "97%", l: "Client Retention" },
-              ].map((s) => (
-                <div key={s.l} className="flex flex-col gap-1">
-                  <span
-                    className="text-2xl font-semibold text-white"
-                    style={{ fontFamily: "var(--font-plus-jakarta)" }}
-                  >
-                    {s.v}
-                  </span>
-                  <span
-                    className="text-[12px] text-white/40"
-                    style={{ fontFamily: "var(--font-dm-sans)" }}
-                  >
-                    {s.l}
-                  </span>
-                </div>
-              ))}
+            <Planet />
+            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+                {TAGS.slice(0,2).map((t,i)=> <div key={i} style={TAG_STYLE}>{t}</div>)}
+              </div>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+                {TAGS.slice(2,4).map((t,i)=> <div key={i} style={TAG_STYLE}>{t}</div>)}
+              </div>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+                {TAGS.slice(4,6).map((t,i)=> <div key={i} style={TAG_STYLE}>{t}</div>)}
+              </div>
             </div>
           </motion.div>
 
-          {/* Right — text content */}
+          {/* RIGHT — text */}
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-7"
+            initial={{ opacity:0, x:32 }}
+            whileInView={{ opacity:1, x:0 }}
+            viewport={{ once:true, margin:"-60px" }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
+            style={{ display:"flex", flexDirection:"column", gap:20 }}
           >
-            <span className="badge w-fit" style={{ fontFamily: "var(--font-poppins)" }}>
-              Who We Are
+            <span style={{
+              display:"inline-flex", width:"fit-content", padding:"5px 16px", borderRadius:9999,
+              border:"1px solid rgba(255,255,255,0.14)", background:"rgba(255,255,255,0.04)",
+              fontSize:12, fontFamily:"var(--font-poppins)", color:"rgba(255,255,255,0.55)",
+            }}>
+              About Us
             </span>
 
-            <h2
-              className="text-[clamp(1.8rem,3.2vw,3.4rem)] font-semibold text-white leading-[1.12]"
-              style={{ fontFamily: "var(--font-plus-jakarta)" }}
-            >
-              <span className="font-extralight">Your</span> Trusted{" "}
-              <span className="font-extralight">Technology</span>
-              <br />
-              Partner
+            <h2 style={{
+              fontFamily:"var(--font-plus-jakarta)", fontSize:"clamp(1.8rem,3.2vw,3rem)",
+              fontWeight:700, lineHeight:1.15, color:"#fff", margin:0,
+            }}>
+              Empowering Innovation.<br />
+              Our Technology. <span style={{
+                fontFamily:"Georgia,'Times New Roman',serif", fontStyle:"italic", fontWeight:300,
+              }}>Your Growth.</span>
             </h2>
 
-            <p
-              className="text-white/50 text-[14px] leading-[1.85]"
-              style={{ fontFamily: "var(--font-dm-sans)" }}
-            >
-              Enif IT Services Ltd. is a full-service technology agency based in
-              Bangladesh, specializing in web & app development, AI automation,
-              business management solutions, marketing & growth, and brand
-              identity. We partner with ambitious businesses to create digital
-              experiences that drive real results.
+            <p style={{ fontFamily:"var(--font-dm-sans)", fontSize:14, lineHeight:1.85, color:"rgba(255,255,255,0.48)", margin:0 }}>
+              Enif IT Services was founded on a single conviction, that the right
+              technology, applied with precision, transforms how businesses operate
+              and grow. We named ourselves after Enif, the brightest star in the
+              constellation Pegasus. Like that star, we exist to guide: bringing
+              clarity, intelligence, and forward momentum to every business we work with.
             </p>
-
-            <p
-              className="text-white/50 text-[14px] leading-[1.85]"
-              style={{ fontFamily: "var(--font-dm-sans)" }}
-            >
-              Our multidisciplinary team of engineers, designers, and strategists
-              works closely with each client to understand their unique challenges
-              and deliver solutions that are not just technically excellent but
-              strategically sound.
+            <p style={{ fontFamily:"var(--font-dm-sans)", fontSize:14, lineHeight:1.85, color:"rgba(255,255,255,0.48)", margin:0 }}>
+              We are not a generalist agency. Every solution we deliver, across web
+              and app development, AI automation, business management, marketing, and
+              brand identity, is engineered to produce measurable outcomes.
             </p>
 
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1560FF] text-white text-[15px] font-medium rounded-full hover:bg-[#2A2594] transition-all duration-300 w-fit shadow-[0_0_24px_rgba(21,96,255,0.4)]"
-              style={{ fontFamily: "var(--font-poppins)" }}
+              style={{
+                display:"inline-flex", alignItems:"center", gap:8, width:"fit-content",
+                padding:"12px 28px", borderRadius:9999,
+                border:"1px solid rgba(255,255,255,0.22)", background:"rgba(48,44,130,0.45)",
+                color:"#fff", fontSize:14, fontWeight:500, fontFamily:"var(--font-poppins)",
+                textDecoration:"none",
+              }}
             >
-              Learn More
+              Learn More About Enif
             </Link>
           </motion.div>
         </div>

@@ -3,208 +3,190 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* Figma Frame 1019 — FAQ: badge + heading + left visual + right accordion */
-
 const FAQS = [
   {
-    q: "What services does Enif IT offer?",
-    a: "Enif IT offers a comprehensive suite of technology services including web & app development, AI solutions & automation, business management systems (ERP/CRM), digital marketing & growth, and brand identity & creative design.",
+    q: "How do I know if my business is ready for AI automation?",
+    a: "If your team spends meaningful time on repetitive tasks like data entry, lead qualification, reporting, or customer follow-up, you are already absorbing the cost of not automating. We begin every AI engagement with a workflow audit to identify the highest-value opportunities first, so you see results quickly without disrupting current operations.",
   },
   {
-    q: "How long does a typical project take?",
-    a: "Project timelines vary based on scope and complexity. A simple website takes 2–4 weeks, while a full enterprise platform or AI solution may take 3–6 months. We provide detailed timelines during our discovery phase before any work begins.",
+    q: "How does Enif approach a new project?",
+    a: "Every engagement begins with a scoping session where we map your goals, constraints, and growth targets. We then propose a structured plan with clear milestones and deliverables. You have a dedicated contact throughout, and we use collaborative tools to keep you fully informed at every stage, with no unnecessary meetings and no guesswork.",
   },
   {
-    q: "Do you work with startups as well as large companies?",
-    a: "Absolutely. We work with founders building their first product all the way to established enterprises undergoing digital transformation. Our solutions are built to scale, so startups grow into them rather than outgrowing them.",
+    q: "Can you integrate with the platforms and tools we already use?",
+    a: "In almost every case, yes. We build integrations with existing CRMs, ERPs, e-commerce platforms, marketing stacks, and cloud environments. We design solutions that extend and enhance what you already have, and only recommend replacing systems when it genuinely serves your business interests.",
   },
   {
-    q: "What does the development process look like?",
-    a: "We follow an agile process: Discovery → Architecture & Design → Development (2-week sprints) → QA & Testing → Deployment → Ongoing support. You receive weekly updates and have direct access to your dedicated project team throughout.",
+    q: "What if our project scope changes as we grow?",
+    a: "We expect it to. We architect every system with modular, extensible foundations, meaning new features, increased capacity, or additional integrations can be layered in without restructuring what already works. Scope evolution is not a complication; it is something we design for from the start.",
   },
   {
-    q: "How do you ensure the quality of your deliverables?",
-    a: "Quality is built in at every stage — code reviews, automated testing, manual QA, performance audits, and security checks. We deliver 97%+ client satisfaction because we don't ship until it meets our own high standards.",
+    q: "Can Enif adapt its services to different industries?",
+    a: "Yes. We have delivered for clients across e-commerce, SaaS, healthcare, logistics, retail, education, and professional services. Our process is industry-agnostic by design: we learn your specific business model first, then build technology and strategy that fits your market, not a generic template.",
   },
 ];
 
-function PlusIcon({ open }: { open: boolean }) {
+function PlusMinus({ open }: { open: boolean }) {
   return (
-    <div
-      className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center shrink-0 transition-all duration-300"
-      style={{
-        background: open ? "rgba(42,37,148,0.4)" : "rgba(255,255,255,0.04)",
-        borderColor: open ? "rgba(42,37,148,0.5)" : "rgba(255,255,255,0.1)",
-      }}
-    >
-      <svg
-        viewBox="0 0 12 12"
-        fill="none"
-        className="w-3 h-3 transition-transform duration-300"
-        style={{ transform: open ? "rotate(45deg)" : "none" }}
-      >
-        <path d="M6 1v10M1 6h10" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+    <div style={{
+      width:28, height:28, borderRadius:"50%", flexShrink:0,
+      display:"flex", alignItems:"center", justifyContent:"center",
+      background: open ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.05)",
+      border:"1px solid rgba(255,255,255,0.10)",
+      transition:"background 0.2s",
+    }}>
+      <svg viewBox="0 0 12 12" fill="none" style={{ width:11,height:11, transition:"transform 0.3s",
+        transform: open ? "rotate(45deg)" : "none" }}>
+        <path d="M6 1v10M1 6h10" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     </div>
   );
 }
 
-function FAQVisual() {
+function Moon() {
   return (
-    <div className="relative w-full aspect-[4/5] max-w-[380px] mx-auto">
-      {/* Background card */}
-      <div
-        className="absolute inset-0 rounded-[30px]"
-        style={{
-          background: "linear-gradient(160deg, rgba(42,37,148,0.35) 0%, rgba(4,5,27,0.9) 100%)",
-          border: "1px solid rgba(255,255,255,0.07)",
-        }}
-      />
-
-      {/* Center glow */}
-      <div
-        className="absolute inset-[20%] rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(42,37,148,0.6) 0%, transparent 70%)",
-          filter: "blur(24px)",
-        }}
-      />
-
-      {/* Moon/crescent decoration */}
-      <div className="absolute top-8 right-8">
-        <svg viewBox="0 0 60 60" className="w-14 h-14 opacity-30">
-          <path
-            d="M30 5 A25 25 0 1 0 30 55 A15 15 0 1 1 30 5 Z"
-            fill="rgba(42,37,148,0.8)"
-          />
-        </svg>
-      </div>
-
-      {/* Question cards overlaid */}
-      <div className="absolute bottom-8 left-6 right-6 flex flex-col gap-3">
-        {["Do you offer AI integration?", "What's your tech stack?"].map((q, i) => (
-          <div
-            key={i}
-            className="px-4 py-3 rounded-xl text-[12px] text-white/60"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              fontFamily: "var(--font-dm-sans)",
-            }}
-          >
-            {q}
-          </div>
+    <div style={{
+      width:"100%", minHeight:360,
+      borderRadius:24,
+      background:"linear-gradient(160deg, rgba(16,14,80,0.8) 0%, rgba(4,5,27,0.9) 100%)",
+      border:"1px solid rgba(255,255,255,0.07)",
+      display:"flex", alignItems:"center", justifyContent:"center",
+      position:"relative", overflow:"hidden",
+    }}>
+      {/* Ambient glow */}
+      <div style={{
+        position:"absolute", inset:0,
+        background:"radial-gradient(ellipse 70% 60% at 50% 50%, rgba(30,24,120,0.45) 0%, transparent 70%)",
+      }}/>
+      {/* Stars inside panel */}
+      {[[10,12],[80,18],[15,70],[82,65],[50,8],[5,45],[90,42],[35,88],[65,85]].map(([x,y],i)=>(
+        <div key={i} style={{
+          position:"absolute", left:`${x}%`, top:`${y}%`,
+          width: i%3===0 ? 2 : 1, height: i%3===0 ? 2 : 1,
+          borderRadius:"50%", background:"white", opacity: 0.25+i*0.04,
+        }}/>
+      ))}
+      {/* Moon sphere */}
+      <div style={{ position:"relative", width:200, height:200, borderRadius:"50%",
+        background:"radial-gradient(circle at 38% 34%, #9090ff 0%, #4855cc 22%, #1e2aa0 52%, #0c1260 78%, #070c44 100%)",
+        boxShadow:"0 0 90px rgba(50,60,200,0.48), 0 0 32px rgba(90,110,255,0.28)",
+        flexShrink:0,
+      }}>
+        {/* Crescent shadow */}
+        <div style={{ position:"absolute", inset:0, borderRadius:"50%",
+          background:"radial-gradient(circle at 74% 48%, transparent 38%, rgba(4,5,27,0.72) 50%)",
+        }}/>
+        {/* Craters */}
+        {[[28,36,22],[54,60,14],[65,26,12],[20,65,10]].map(([x,y,r],i)=>(
+          <div key={i} style={{
+            position:"absolute", left:`${x}%`, top:`${y}%`,
+            width:r, height:r, transform:"translate(-50%,-50%)",
+            borderRadius:"50%", background:"rgba(0,0,0,0.18)",
+          }}/>
         ))}
-      </div>
-
-      {/* Center text */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <p
-          className="text-white/25 text-[13px] text-center px-6"
-          style={{ fontFamily: "var(--font-poppins)" }}
-        >
-          Got questions?
-          <br />
-          We've got answers.
-        </p>
       </div>
     </div>
   );
 }
 
 export default function FAQSection() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number|null>(1);
 
   return (
-    <section className="py-20 lg:py-28 bg-[#04051B]">
-      <div className="max-w-[1312px] mx-auto px-6 xl:px-0 flex flex-col gap-14">
+    <section style={{ padding:"80px 0 100px", background:"transparent" }}>
+      <div style={{ maxWidth:1312, margin:"0 auto", padding:"0 24px", display:"flex", flexDirection:"column", gap:48 }}>
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center gap-5 max-w-2xl mx-auto"
+          initial={{ opacity:0, y:24 }}
+          whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true, margin:"-60px" }}
+          transition={{ duration:0.6, ease:[0.16,1,0.3,1] }}
+          style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:14, textAlign:"center" }}
         >
-          <span className="badge" style={{ fontFamily: "var(--font-poppins)" }}>
+          <span style={{
+            display:"inline-flex", padding:"5px 18px", borderRadius:9999,
+            border:"1px solid rgba(255,255,255,0.14)",
+            background:"rgba(255,255,255,0.04)",
+            fontSize:12, fontFamily:"var(--font-poppins)",
+            color:"rgba(255,255,255,0.55)",
+          }}>
             FAQ
           </span>
-          <h2
-            className="text-[clamp(2rem,4vw,3.4rem)] font-semibold text-white leading-[1.1]"
-            style={{ fontFamily: "var(--font-plus-jakarta)" }}
-          >
-            <span className="font-extralight">Got Questions?</span>
-            <br />
-            We've Got Answers!
+          <h2 style={{
+            fontFamily:"var(--font-plus-jakarta)",
+            fontSize:"clamp(1.9rem,3.8vw,3.2rem)",
+            fontWeight:700, lineHeight:1.18,
+            color:"#fff", margin:0,
+          }}>
+            Got Questions? We Have<br/>Got Answers.
           </h2>
         </motion.div>
 
-        {/* Two-column: left visual + right accordion */}
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-12 items-start">
+        {/* Two-col */}
+        <div style={{ display:"grid", gridTemplateColumns:"2fr 3fr", gap:40, alignItems:"start" }}>
 
-          {/* Left — visual */}
+          {/* Left: moon */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:block"
+            initial={{ opacity:0, x:-24 }}
+            whileInView={{ opacity:1, x:0 }}
+            viewport={{ once:true, margin:"-40px" }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
           >
-            <FAQVisual />
+            <Moon />
           </motion.div>
 
-          {/* Right — accordion */}
+          {/* Right: accordion */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-3"
+            initial={{ opacity:0, x:24 }}
+            whileInView={{ opacity:1, x:0 }}
+            viewport={{ once:true, margin:"-40px" }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
+            style={{ display:"flex", flexDirection:"column", gap:10 }}
           >
             {FAQS.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl overflow-hidden transition-all duration-300"
-                style={{
-                  background:
-                    open === i
-                      ? "linear-gradient(135deg, rgba(42,37,148,0.22) 0%, rgba(4,5,27,0.9) 100%)"
-                      : "rgba(255,255,255,0.025)",
-                  border:
-                    open === i
-                      ? "1px solid rgba(42,37,148,0.35)"
-                      : "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
+              <div key={i} style={{
+                borderRadius:16, overflow:"hidden",
+                background: open===i ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)",
+                border:"1px solid rgba(255,255,255,0.08)",
+                transition:"background 0.25s",
+              }}>
                 <button
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
-                  onClick={() => setOpen(open === i ? null : i)}
+                  style={{
+                    width:"100%", display:"flex", alignItems:"center",
+                    justifyContent:"space-between", gap:16,
+                    padding:"16px 20px", textAlign:"left",
+                    background:"none", border:"none", cursor:"pointer",
+                  }}
+                  onClick={()=>setOpen(open===i ? null : i)}
                 >
-                  <span
-                    className="text-[15px] font-medium text-white/90"
-                    style={{ fontFamily: "var(--font-plus-jakarta)" }}
-                  >
+                  <span style={{
+                    fontFamily:"var(--font-dm-sans)",
+                    fontSize:14, fontWeight:500,
+                    color:"rgba(255,255,255,0.80)",
+                  }}>
                     {faq.q}
                   </span>
-                  <PlusIcon open={open === i} />
+                  <PlusMinus open={open===i} />
                 </button>
 
                 <AnimatePresence initial={false}>
-                  {open === i && (
+                  {open===i && faq.a && (
                     <motion.div
-                      key="content"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
+                      key="body"
+                      initial={{ height:0, opacity:0 }}
+                      animate={{ height:"auto", opacity:1 }}
+                      exit={{ height:0, opacity:0 }}
+                      transition={{ duration:0.28, ease:[0.16,1,0.3,1] }}
+                      style={{ overflow:"hidden" }}
                     >
-                      <p
-                        className="px-6 pb-6 text-[14px] text-white/50 leading-[1.8]"
-                        style={{ fontFamily: "var(--font-dm-sans)" }}
-                      >
+                      <p style={{
+                        fontFamily:"var(--font-dm-sans)",
+                        fontSize:13, lineHeight:1.8,
+                        color:"rgba(255,255,255,0.45)",
+                        padding:"0 20px 18px",
+                        margin:0,
+                      }}>
                         {faq.a}
                       </p>
                     </motion.div>

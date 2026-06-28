@@ -132,7 +132,7 @@ body {
   background-size: 40px 40px;
 }
 
-/* Admin form input */
+/* Dark admin form input (used on dark-theme pages) */
 .input {
   width: 100%;
   height: 2.5rem;
@@ -148,6 +148,24 @@ body {
 .input:focus { border-color: #1B6BFF; }
 .input::placeholder { color: #404040; }
 textarea.input { padding: 0.5rem 0.75rem; height: auto; }
+
+/* Light admin form input */
+.admin-input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid #E8ECF4;
+  border-radius: 0.75rem;
+  color: #111827;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.admin-input:focus { border-color: #1B6BFF; box-shadow: 0 0 0 3px rgba(27,107,255,0.08); }
+.admin-input::placeholder { color: #9CA3AF; }
+textarea.admin-input { padding: 0.5rem 0.75rem; height: auto; }
+select.admin-input { cursor: pointer; }
 
 /* Badge style */
 .badge {

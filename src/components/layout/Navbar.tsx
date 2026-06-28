@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 import Logo from "@/components/common/Logo";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Projects", href: "/projects" },
-  { label: "Contact", href: "/contact" },
+  { label: "Home",         href: "/" },
+  { label: "About",        href: "/about" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Projects",     href: "/projects" },
+  { label: "Contact",      href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -27,9 +27,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   return (
     <>
@@ -39,47 +37,38 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-400",
-          scrolled
-            ? "bg-[#04051B]/90 backdrop-blur-xl border-b border-white/[0.06]"
-            : "bg-transparent"
+          scrolled ? "bg-[#04051B]/80 backdrop-blur-xl border-b border-white/[0.06]" : "bg-transparent"
         )}
       >
         <div className="max-w-[1312px] mx-auto px-6 xl:px-0">
-          <nav className="h-[72px] flex items-center justify-between gap-8">
+          <nav className="h-[72px] flex items-center justify-between">
 
             {/* Logo */}
             <Logo height={28} />
 
-            {/* Center nav links */}
-            <ul className="hidden lg:flex items-center gap-1">
-              {NAV_LINKS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "px-4 py-2 text-[14px] font-medium rounded-lg transition-colors duration-200",
-                      pathname === item.href
-                        ? "text-white"
-                        : "text-white/50 hover:text-white"
-                    )}
-                    style={{ fontFamily: "var(--font-dm-sans)" }}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            {/* Pill nav — right side, matching Xenova layout */}
+            <ul
+              className="hidden lg:flex items-center gap-0.5 rounded-full border border-white/[0.14] px-3 py-1.5"
+              style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)" }}
+            >
+              {NAV_LINKS.map((item) => {
+                const active = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "px-4 py-1.5 rounded-full text-[13.5px] font-medium transition-colors duration-200",
+                        active ? "text-white bg-white/[0.10]" : "text-white/55 hover:text-white"
+                      )}
+                      style={{ fontFamily: "var(--font-dm-sans)" }}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
-
-            {/* Right CTA */}
-            <div className="hidden lg:flex items-center">
-              <Link
-                href="/contact"
-                className="px-6 py-2.5 text-[14px] font-medium bg-[#1560FF] text-white rounded-full hover:bg-[#2A2594] transition-colors duration-300 shadow-[0_0_24px_rgba(21,96,255,0.35)]"
-                style={{ fontFamily: "var(--font-poppins)" }}
-              >
-                Get Started
-              </Link>
-            </div>
 
             {/* Mobile toggle */}
             <button
@@ -102,10 +91,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 lg:hidden"
           >
-            <div
-              className="absolute inset-0 bg-[#04051B]/80 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
-            />
+            <div className="absolute inset-0 bg-[#04051B]/80 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -121,7 +107,7 @@ export default function Navbar() {
                     className={cn(
                       "px-4 py-3 text-[14px] font-medium rounded-xl transition-colors",
                       pathname === item.href
-                        ? "bg-[#2A2594]/20 text-white border border-[#2A2594]/30"
+                        ? "bg-white/10 text-white"
                         : "text-white/50 hover:text-white hover:bg-white/5"
                     )}
                     style={{ fontFamily: "var(--font-dm-sans)" }}
