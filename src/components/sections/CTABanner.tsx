@@ -74,7 +74,6 @@ export default function CTABanner() {
           style={{
             maxWidth:460,
             fontFamily:"var(--font-dm-sans)",
-            fontSize:14, lineHeight:1.8,
             color:"rgba(255,255,255,0.42)",
             margin:0,
           }}

@@ -124,7 +124,7 @@ export default function FAQSection() {
         </motion.div>
 
         {/* Two-col */}
-        <div style={{ display:"grid", gridTemplateColumns:"2fr 3fr", gap:40, alignItems:"start" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10 items-start">
 
           {/* Left: moon */}
           <motion.div
@@ -182,7 +182,6 @@ export default function FAQSection() {
                     >
                       <p style={{
                         fontFamily:"var(--font-dm-sans)",
-                        fontSize:13, lineHeight:1.8,
                         color:"rgba(255,255,255,0.45)",
                         padding:"0 20px 18px",
                         margin:0,

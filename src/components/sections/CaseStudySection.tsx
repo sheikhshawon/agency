@@ -3,10 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, TrendingUp } from "lucide-react";
-import { CASE_STUDIES } from "@/constants/content";
+import type { CaseStudyRow } from "@/app/admin/case-studies/actions";
 import SectionHeading from "@/components/common/SectionHeading";
 
-export default function CaseStudySection() {
+export default function CaseStudySection({ caseStudies }: { caseStudies: CaseStudyRow[] }) {
+  if (caseStudies.length === 0) return null;
   return (
     <section id="case-studies" className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -19,7 +20,7 @@ export default function CaseStudySection() {
         />
 
         <div className="grid lg:grid-cols-2 gap-6">
-          {CASE_STUDIES.map((cs, i) => (
+          {caseStudies.map((cs, i) => (
             <motion.article
               key={cs.id}
               initial={{ opacity: 0, y: 32 }}
@@ -28,7 +29,7 @@ export default function CaseStudySection() {
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link
-                href={cs.href}
+                href={`/case-studies/${cs.slug}`}
                 className="group flex flex-col h-full bg-[#0F0F0F] border border-[#1E1E1E] rounded-3xl overflow-hidden hover:border-[#1B6BFF]/30 hover:shadow-[0_0_50px_rgba(27,107,255,0.08)] transition-all duration-300"
               >
                 {/* Image Area */}
@@ -47,10 +48,12 @@ export default function CaseStudySection() {
                     {cs.industry}
                   </div>
                   {/* Metric Badge */}
-                  <div className="absolute top-4 right-4 bg-[#111111]/90 backdrop-blur-sm border border-[#1E1E1E] rounded-2xl px-4 py-3 text-center">
-                    <p className="text-2xl font-bold text-white">{cs.metric}</p>
-                    <p className="text-[10px] text-[#606060]">{cs.metricLabel}</p>
-                  </div>
+                  {cs.metric && (
+                    <div className="absolute top-4 right-4 bg-[#111111]/90 backdrop-blur-sm border border-[#1E1E1E] rounded-2xl px-4 py-3 text-center">
+                      <p className="text-2xl font-bold text-white">{cs.metric}</p>
+                      <p className="text-[10px] text-[#606060]">{cs.metric_label}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -72,7 +75,7 @@ export default function CaseStudySection() {
                       <p className="text-xs font-semibold text-[#808080] uppercase tracking-wider mb-1">
                         Solution
                       </p>
-                      <p className="text-sm text-[#606060] leading-relaxed">{cs.result}</p>
+                      <p className="text-sm text-[#606060] leading-relaxed">{cs.solution}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-sm font-semibold text-[#1B6BFF] group-hover:gap-3 transition-all">

@@ -57,13 +57,13 @@ const CARDS = [
     title: "Proven Results",
     desc: "We measure our work by business outcomes, not deliverable checklists. Every project begins with a clear definition of what winning looks like for you, then we engineer backward from that goal. Our client retention rate above 98% reflects the quality of what we deliver.",
     Icon: IconArrow,
-    mt: "lg:mt-24",
+    mt: "lg:mt-[clamp(40px,8vw,96px)]",
   },
   {
     title: "Expert Teams",
     desc: "Our team does not generalize across everything. We have dedicated specialists in development, AI, design, and growth, each operating at the top of their discipline. You receive senior-level execution on every layer of your project.",
     Icon: IconRefresh,
-    mt: "lg:mt-12",
+    mt: "lg:mt-[clamp(20px,4vw,48px)]",
   },
   {
     title: "Tailored Solutions",
@@ -78,7 +78,7 @@ export default function WhyUsSection() {
     <section id="why-us" style={{ padding: "80px 0 100px", background: "transparent" }}>
       <div style={{ maxWidth:1312, margin:"0 auto", padding:"0 24px" }}>
 
-        <div style={{ display:"flex", gap:"clamp(32px,6vw,80px)", flexWrap:"wrap" }}>
+        <div className="flex flex-col lg:flex-row" style={{ gap:"clamp(32px,6vw,80px)" }}>
 
           {/* LEFT: header */}
           <motion.div
@@ -86,7 +86,8 @@ export default function WhyUsSection() {
             whileInView={{ opacity:1, y:0 }}
             viewport={{ once:true, margin:"-60px" }}
             transition={{ duration:0.6, ease:[0.16,1,0.3,1] }}
-            style={{ flexShrink:0, width:"clamp(200px,22vw,280px)", display:"flex", flexDirection:"column", gap:16 }}
+            className="w-full lg:w-[clamp(200px,22vw,280px)] lg:shrink-0"
+            style={{ display:"flex", flexDirection:"column", gap:16 }}
           >
             <span style={{
               display:"inline-flex", width:"fit-content",
@@ -109,7 +110,7 @@ export default function WhyUsSection() {
           </motion.div>
 
           {/* RIGHT: 3 staggered cards */}
-          <div style={{ flex:1, minWidth:0, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16, alignItems:"start" }}>
+          <div style={{ flex:1, minWidth:0, display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,220px),1fr))", gap:16, alignItems:"start" }}>
             {CARDS.map((card, i) => (
               <motion.div
                 key={card.title}
@@ -117,8 +118,8 @@ export default function WhyUsSection() {
                 whileInView={{ opacity:1, y:0 }}
                 viewport={{ once:true, margin:"-40px" }}
                 transition={{ duration:0.6, delay:i*0.1, ease:[0.16,1,0.3,1] }}
+                className={card.mt}
                 style={{
-                  marginTop: i===0 ? "clamp(40px,8vw,96px)" : i===1 ? "clamp(20px,4vw,48px)" : 0,
                   borderRadius:20,
                   padding:24,
                   display:"flex", flexDirection:"column", gap:20,
@@ -140,7 +141,6 @@ export default function WhyUsSection() {
                   </h3>
                   <p style={{
                     fontFamily:"var(--font-dm-sans)",
-                    fontSize:13, lineHeight:1.7,
                     color:"rgba(255,255,255,0.45)", margin:0,
                   }}>
                     {card.desc}

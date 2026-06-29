@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, GitFork, Star, Calendar, Tag } from "lucide-react";
 import { getProjectById, getRelatedProjects } from "@/app/admin/projects/actions";
+import { renderMarkdown } from "@/lib/markdown";
 import ProjectCard from "@/components/common/ProjectCard";
 
 export const dynamic = "force-dynamic";
@@ -109,9 +110,7 @@ export default async function ProjectDetailPage(props: PageProps<"/projects/[id]
                 <h2 className="text-xs font-semibold text-[#404040] uppercase tracking-widest mb-3">
                   About this project
                 </h2>
-                <p className="text-[#A0A0A0] leading-relaxed text-base">
-                  {project.description}
-                </p>
+                <div className="prose-enif">{renderMarkdown(project.description)}</div>
               </div>
             )}
 

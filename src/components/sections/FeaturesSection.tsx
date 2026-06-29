@@ -2,6 +2,9 @@
 
 import { useState, type ReactElement } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+
+const MotionLink = motion(Link);
 
 /* ── Icons (52×52, circular bordered) ── */
 function ring(children: React.ReactNode) {
@@ -81,18 +84,20 @@ const CARD_STARS_S = [
   {x:"40%",y:"72%",s:1},{x:"80%",y:"55%",s:1.5},{x:"15%",y:"65%",s:1},
 ];
 
-interface FeatureDef { title:string; desc:string; Icon:()=>ReactElement; }
+interface FeatureDef { title:string; desc:string; Icon:()=>ReactElement; href:string; }
 
 const LARGE: FeatureDef[] = [
   {
     title: "Web & App Development",
     desc: "We architect and build high-performance websites and web applications using modern stacks built for speed, scalability, and exceptional user experience. Your digital presence should be as ambitious as your business.",
     Icon: IconWeb,
+    href: "/services/web-app-development",
   },
   {
     title: "Marketing & Business Growth",
     desc: "Traffic without strategy is noise. We combine data-led SEO, performance campaigns, and conversion optimization to build growth pipelines that compound. We do not just run ads, we engineer growth systems.",
     Icon: IconGrowth,
+    href: "/services/marketing-business-growth",
   },
 ];
 
@@ -101,16 +106,19 @@ const SMALL: FeatureDef[] = [
     title: "Business Management Solutions",
     desc: "We design and implement integrated CRM, ERP, operations dashboards, and process automation that give you full visibility and control over every part of your business.",
     Icon: IconGear,
+    href: "/services/business-management-solutions",
   },
   {
     title: "Brand Identity & Design",
     desc: "We build brand identities that communicate authority and attract the right audience, from logo systems and visual language to complete brand guidelines and campaign assets.",
     Icon: IconBrand,
+    href: "/services/brand-identity-creative-design",
   },
   {
     title: "AI Solutions & Automation",
     desc: "We deploy intelligent workflows, predictive tools, and AI-integrated systems that eliminate repetitive decisions and free your team to focus on what actually moves the needle.",
     Icon: IconAI,
+    href: "/services/ai-solutions-automation",
   },
 ];
 
@@ -120,14 +128,15 @@ function Card({ f, index, large }: { f:FeatureDef; index:number; large:boolean }
   const stars = large ? CARD_STARS_L : CARD_STARS_S;
 
   return (
-    <motion.div
+    <MotionLink
+      href={f.href}
       initial={{ opacity:0, y:28 }}
       whileInView={{ opacity:1, y:0 }}
       viewport={{ once:true, margin:"-40px" }}
       transition={{ duration:0.55, delay:index*0.1, ease:[0.16,1,0.3,1] }}
       onMouseEnter={()=>setHovered(true)}
       onMouseLeave={()=>setHovered(false)}
-      className="relative rounded-[20px] overflow-hidden flex flex-col justify-between cursor-pointer"
+      className="relative rounded-[20px] overflow-hidden flex flex-col justify-between cursor-pointer no-underline"
       style={{
         minHeight: large ? 340 : 300, padding: 28,
         background: active ? "linear-gradient(145deg, #14138a 0%, #1e1dc0 45%, #2525d4 100%)" : "rgba(8,8,45,0.65)",
@@ -148,13 +157,13 @@ function Card({ f, index, large }: { f:FeatureDef; index:number; large:boolean }
           <h3 style={{ fontFamily:"var(--font-plus-jakarta)", fontSize: large?22:20, fontWeight:700, color:"#fff", lineHeight:1.2, marginBottom:10 }}>
             {f.title}
           </h3>
-          <p style={{ fontFamily:"var(--font-dm-sans)", fontSize:13, color:"rgba(255,255,255,0.55)", lineHeight:1.7, maxWidth: large?420:undefined }}>
+          <p style={{ fontFamily:"var(--font-dm-sans)", color:"rgba(255,255,255,0.55)", maxWidth: large?420:undefined }}>
             {f.desc}
           </p>
         </div>
         <div className="shrink-0"><ArrowBtn /></div>
       </div>
-    </motion.div>
+    </MotionLink>
   );
 }
 
@@ -187,11 +196,11 @@ export default function FeaturesSection() {
         </motion.div>
 
         {/* Row 1 — 2 large */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:16 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:16, marginBottom:16 }}>
           {LARGE.map((f,i)=> <Card key={f.title} f={f} index={i} large />)}
         </div>
         {/* Row 2 — 3 small */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:16 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:16 }}>
           {SMALL.map((f,i)=> <Card key={f.title} f={f} index={i+2} large={false} />)}
         </div>
       </div>

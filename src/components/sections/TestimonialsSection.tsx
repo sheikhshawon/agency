@@ -13,7 +13,7 @@ export default function TestimonialsSection() {
           badge="Client Love"
           title="What Our Clients Say"
           highlight="Clients"
-          description="Don't take our word for it — hear directly from the businesses we've transformed."
+          description="Don't take our word for it. Hear directly from the businesses we've transformed."
           className="mb-16"
         />
 

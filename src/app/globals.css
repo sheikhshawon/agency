@@ -57,6 +57,20 @@ body {
   overflow-x: hidden;
 }
 
+/* Consistent paragraph styling site-wide */
+p {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 1.0625rem;   /* 17px */
+  line-height: 1.75;
+}
+
+/* Media never overflows its container on small screens */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #04051B; }
@@ -113,6 +127,12 @@ body {
 .dot-pattern {
   background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+/* Twinkling stars (login / space backgrounds) */
+@keyframes twinkle {
+  0%, 100% { opacity: var(--o, 0.6); }
+  50%      { opacity: calc(var(--o, 0.6) * 0.25); }
 }
 
 /* Marquee animation */

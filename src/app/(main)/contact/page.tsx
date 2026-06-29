@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Mail, Phone, MapPin, MessageSquare, Clock, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, MessageSquare, Clock } from "lucide-react";
 import SectionHeading from "@/components/common/SectionHeading";
+import ContactForm from "@/components/layout/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Enif IT Services Ltd. — let's build something great together.",
+  description: "Get in touch with Enif IT Services Ltd. Let's build something great together.",
 };
 
 const CONTACT_INFO = [
@@ -12,15 +13,6 @@ const CONTACT_INFO = [
   { icon: Phone, label: "Call Us", value: "+880 1234-567 890", href: "tel:+8801234567890" },
   { icon: MapPin, label: "Visit Us", value: "Dhaka, Bangladesh", href: "#" },
   { icon: Clock, label: "Working Hours", value: "Sun–Thu, 9 AM – 6 PM", href: "#" },
-];
-
-const SERVICES_LIST = [
-  "Web & App Development",
-  "Business Management Solutions",
-  "Marketing & Business Growth",
-  "Brand Identity & Creative Design",
-  "AI Solutions & Automation",
-  "Other / Not sure yet",
 ];
 
 export default function ContactPage() {
@@ -82,90 +74,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div className="lg:col-span-3">
-            <form className="flex flex-col gap-5 p-8 rounded-3xl bg-[#0F0F0F] border border-[#1E1E1E]">
-              <h3 className="text-lg font-bold text-white mb-1">Send Us a Message</h3>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">First Name *</label>
-                  <input
-                    type="text"
-                    placeholder="John"
-                    required
-                    className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm placeholder:text-[#404040] focus:outline-none focus:border-[#1B6BFF] transition-colors"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Last Name *</label>
-                  <input
-                    type="text"
-                    placeholder="Doe"
-                    required
-                    className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm placeholder:text-[#404040] focus:outline-none focus:border-[#1B6BFF] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Email Address *</label>
-                <input
-                  type="email"
-                  placeholder="john@company.com"
-                  required
-                  className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm placeholder:text-[#404040] focus:outline-none focus:border-[#1B6BFF] transition-colors"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Company</label>
-                <input
-                  type="text"
-                  placeholder="Your Company Name"
-                  className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm placeholder:text-[#404040] focus:outline-none focus:border-[#1B6BFF] transition-colors"
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Service Needed</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {SERVICES_LIST.map((s) => (
-                    <label key={s} className="flex items-center gap-2 cursor-pointer group">
-                      <input type="checkbox" className="w-4 h-4 rounded accent-[#1B6BFF]" />
-                      <span className="text-xs text-[#606060] group-hover:text-white transition-colors">{s}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Budget Range</label>
-                <select className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm focus:outline-none focus:border-[#1B6BFF] transition-colors appearance-none">
-                  <option value="">Select a range</option>
-                  <option>Under $5,000</option>
-                  <option>$5,000 – $15,000</option>
-                  <option>$15,000 – $50,000</option>
-                  <option>$50,000+</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-[#808080] uppercase tracking-wider">Message *</label>
-                <textarea
-                  placeholder="Tell us about your project, goals, and timeline..."
-                  required
-                  rows={5}
-                  className="px-4 py-3 rounded-xl bg-[#111111] border border-[#252525] text-white text-sm placeholder:text-[#404040] focus:outline-none focus:border-[#1B6BFF] transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="group flex items-center justify-center gap-2 px-7 py-3.5 bg-[#1B6BFF] hover:bg-[#4A8FFF] text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-[0_0_30px_rgba(27,107,255,0.3)] hover:shadow-[0_0_50px_rgba(27,107,255,0.5)]"
-              >
-                Send Message
-                <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>

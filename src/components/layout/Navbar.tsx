@@ -11,7 +11,7 @@ import Logo from "@/components/common/Logo";
 const NAV_LINKS = [
   { label: "Home",         href: "/" },
   { label: "About",        href: "/about" },
-  { label: "Case Studies", href: "/case-studies" },
+  { label: "Services",     href: "/services" },
   { label: "Projects",     href: "/projects" },
   { label: "Contact",      href: "/contact" },
 ];
@@ -41,14 +41,14 @@ export default function Navbar() {
         )}
       >
         <div className="max-w-[1312px] mx-auto px-6 xl:px-0">
-          <nav className="h-[72px] flex items-center justify-between">
+          <nav className="h-[84px] flex items-center justify-between">
 
             {/* Logo */}
-            <Logo height={28} />
+            <Logo height={32} />
 
             {/* Pill nav — right side, matching Xenova layout */}
             <ul
-              className="hidden lg:flex items-center gap-0.5 rounded-full border border-white/[0.14] px-3 py-1.5"
+              className="hidden lg:flex items-center gap-1 rounded-full border border-white/[0.14] px-4 py-2"
               style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)" }}
             >
               {NAV_LINKS.map((item) => {
@@ -58,7 +58,7 @@ export default function Navbar() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "px-4 py-1.5 rounded-full text-[13.5px] font-medium transition-colors duration-200",
+                        "px-5 py-2 rounded-full text-[15px] font-medium transition-colors duration-200",
                         active ? "text-white bg-white/[0.10]" : "text-white/55 hover:text-white"
                       )}
                       style={{ fontFamily: "var(--font-dm-sans)" }}

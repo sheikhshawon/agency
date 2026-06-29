@@ -105,8 +105,8 @@ export default function Hero() {
       ))}
 
       {/* ── Hero content ── */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 pt-[72px]"
-        style={{ paddingBottom: "clamp(120px,14vw,180px)" }}>
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 pt-[84px]"
+        style={{ paddingBottom: "0px" }}>
 
         {/* Headline */}
         <motion.div
@@ -117,7 +117,7 @@ export default function Hero() {
           <h1 className="text-white text-center select-none"
             style={{
               fontFamily: "var(--font-plus-jakarta)",
-              fontSize: "clamp(2.2rem, 4.6vw, 4.2rem)",
+              fontSize: "clamp(2.1rem, 9vw, 4.2rem)",
               lineHeight: 1.14,
               fontWeight: 800,
               letterSpacing: "-0.025em",
@@ -152,10 +152,8 @@ export default function Hero() {
           style={{
             marginTop: "clamp(20px,3vw,30px)",
             fontFamily: "var(--font-dm-sans)",
-            fontSize: "clamp(14px,1.15vw,16px)",
-            lineHeight: 1.7,
             color: "rgba(255,255,255,0.60)",
-            maxWidth: "560px",
+            maxWidth: "min(92vw, 560px)",
           }}
         >
           We build the digital systems, automation, and brand presence that move
@@ -192,11 +190,11 @@ export default function Hero() {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-[1312px] mx-auto flex items-center justify-between"
+        className="relative z-10 w-full max-w-[1312px] mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-6"
         style={{ padding: "0 clamp(24px,4vw,48px) clamp(28px,4vw,44px)" }}
       >
         {/* Left: stats */}
-        <div className="flex items-center gap-5">
+        <div className="flex flex-wrap items-center gap-5">
           <div style={{ width: 12, height: 12, borderRadius: "50%", background: "rgba(255,255,255,0.55)", flexShrink: 0 }} />
           <div className="flex items-center gap-2.5">
             <span style={{ fontFamily: "var(--font-plus-jakarta)", fontSize: "clamp(2rem,3.5vw,3rem)", fontWeight: 700, color: "#fff", lineHeight: 1 }}>150+</span>

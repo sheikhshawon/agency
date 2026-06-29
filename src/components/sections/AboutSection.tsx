@@ -111,14 +111,14 @@ export default function AboutSection() {
               }}>Your Growth.</span>
             </h2>
 
-            <p style={{ fontFamily:"var(--font-dm-sans)", fontSize:14, lineHeight:1.85, color:"rgba(255,255,255,0.48)", margin:0 }}>
+            <p style={{ fontFamily:"var(--font-dm-sans)", color:"rgba(255,255,255,0.48)", margin:0 }}>
               Enif IT Services was founded on a single conviction, that the right
               technology, applied with precision, transforms how businesses operate
               and grow. We named ourselves after Enif, the brightest star in the
               constellation Pegasus. Like that star, we exist to guide: bringing
               clarity, intelligence, and forward momentum to every business we work with.
             </p>
-            <p style={{ fontFamily:"var(--font-dm-sans)", fontSize:14, lineHeight:1.85, color:"rgba(255,255,255,0.48)", margin:0 }}>
+            <p style={{ fontFamily:"var(--font-dm-sans)", color:"rgba(255,255,255,0.48)", margin:0 }}>
               We are not a generalist agency. Every solution we deliver, across web
               and app development, AI automation, business management, marketing, and
               brand identity, is engineered to produce measurable outcomes.

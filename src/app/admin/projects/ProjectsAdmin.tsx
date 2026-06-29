@@ -1,16 +1,9 @@
 "use client";
 
-import { useState, useTransition, useRef } from "react";
-import { Plus, Pencil, Trash2, X, Star, ExternalLink, GitFork, Loader2, FolderKanban, Search } from "lucide-react";
-import { createProject, updateProject, deleteProject, type ProjectRow } from "./actions";
-
-const CATEGORIES = [
-  "Web Development",
-  "Business Solutions",
-  "Marketing & Growth",
-  "AI & Automation",
-  "Brand & Design",
-];
+import { useState, useTransition } from "react";
+import Link from "next/link";
+import { Plus, Pencil, Trash2, Star, ExternalLink, GitFork, Loader2, FolderKanban, Search } from "lucide-react";
+import { deleteProject, type ProjectRow } from "./actions";
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Web Development":    "bg-blue-50 text-blue-600 border-blue-100",
@@ -20,87 +13,16 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Brand & Design":     "bg-pink-50 text-pink-600 border-pink-100",
 };
 
-type FormState = {
-  id?: string;
-  title: string;
-  description: string;
-  category: string;
-  thumbnail_url: string;
-  tags: string;
-  live_url: string;
-  github_url: string;
-  year: string;
-  featured: boolean;
-  order_index: string;
-};
-
-const EMPTY: FormState = {
-  title: "",
-  description: "",
-  category: "",
-  thumbnail_url: "",
-  tags: "",
-  live_url: "",
-  github_url: "",
-  year: String(new Date().getFullYear()),
-  featured: false,
-  order_index: "0",
-};
-
-function toFormState(p: ProjectRow): FormState {
-  return {
-    id: p.id,
-    title: p.title,
-    description: p.description ?? "",
-    category: p.category ?? "",
-    thumbnail_url: p.thumbnail_url ?? "",
-    tags: p.tags.join(", "),
-    live_url: p.live_url ?? "",
-    github_url: p.github_url ?? "",
-    year: p.year ?? String(new Date().getFullYear()),
-    featured: p.featured,
-    order_index: String(p.order_index),
-  };
-}
-
 export default function ProjectsAdmin({ initial }: { initial: ProjectRow[] }) {
-  const [open, setOpen] = useState(false);
-  const [form, setForm] = useState<FormState>(EMPTY);
   const [isPending, startTransition] = useTransition();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const formRef = useRef<HTMLFormElement>(null);
 
   const filtered = initial.filter(
     (p) =>
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       (p.category ?? "").toLowerCase().includes(search.toLowerCase())
   );
-
-  function openCreate() {
-    setForm(EMPTY);
-    setOpen(true);
-  }
-
-  function openEdit(p: ProjectRow) {
-    setForm(toFormState(p));
-    setOpen(true);
-  }
-
-  function handleSubmit() {
-    const fd = new FormData(formRef.current!);
-    fd.set("featured", String(form.featured));
-    startTransition(async () => {
-      if (form.id) {
-        fd.set("id", form.id);
-        await updateProject(fd);
-      } else {
-        await createProject(fd);
-      }
-      setOpen(false);
-      setForm(EMPTY);
-    });
-  }
 
   function handleDelete(id: string) {
     const fd = new FormData();
@@ -122,13 +44,13 @@ export default function ProjectsAdmin({ initial }: { initial: ProjectRow[] }) {
           <h1 className="text-2xl font-bold text-[#111827]">Projects</h1>
           <p className="text-sm text-[#6B7280] mt-0.5">Manage your portfolio projects</p>
         </div>
-        <button
-          onClick={openCreate}
+        <Link
+          href="/admin/projects/new"
           className="flex items-center gap-2 px-4 py-2.5 bg-[#1B6BFF] hover:bg-[#1557CC] text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-blue-200"
         >
           <Plus size={16} />
           New Project
-        </button>
+        </Link>
       </div>
 
       {/* Stat cards */}
@@ -252,13 +174,13 @@ export default function ProjectsAdmin({ initial }: { initial: ProjectRow[] }) {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => openEdit(p)}
+                    <Link
+                      href={`/admin/projects/${p.id}/edit`}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#6B7280] hover:text-[#1B6BFF] hover:bg-[#EEF3FF] transition-colors"
                     >
                       <Pencil size={13} />
                       Edit
-                    </button>
+                    </Link>
                     <button
                       onClick={() => setDeleteId(p.id)}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#6B7280] hover:text-red-500 hover:bg-red-50 transition-colors"
@@ -281,163 +203,6 @@ export default function ProjectsAdmin({ initial }: { initial: ProjectRow[] }) {
           </div>
         )}
       </div>
-
-      {/* Create / Edit Modal */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-[#E8ECF4]">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F3F8]">
-              <div>
-                <h2 className="text-base font-bold text-[#111827]">
-                  {form.id ? "Edit Project" : "New Project"}
-                </h2>
-                <p className="text-xs text-[#9CA3AF] mt-0.5">
-                  {form.id ? "Update project details" : "Fill in the project details below"}
-                </p>
-              </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-[#9CA3AF] hover:text-[#374151] hover:bg-[#F4F6FB] transition-colors"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            <form ref={formRef} className="px-6 py-5 flex flex-col gap-4 max-h-[65vh] overflow-y-auto">
-              <Field label="Title *">
-                <input
-                  name="title"
-                  required
-                  value={form.title}
-                  onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  className="admin-input"
-                  placeholder="My Awesome Project"
-                />
-              </Field>
-
-              <Field label="Description">
-                <textarea
-                  name="description"
-                  rows={2}
-                  value={form.description}
-                  onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                  className="admin-input resize-none"
-                  placeholder="A short description of the project..."
-                />
-              </Field>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Category">
-                  <select
-                    name="category"
-                    value={form.category}
-                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                    className="admin-input"
-                  >
-                    <option value="">Select category</option>
-                    {CATEGORIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Year">
-                  <input
-                    name="year"
-                    value={form.year}
-                    onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))}
-                    className="admin-input"
-                    placeholder="2025"
-                  />
-                </Field>
-              </div>
-
-              <Field label="Tags (comma-separated)">
-                <input
-                  name="tags"
-                  value={form.tags}
-                  onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
-                  className="admin-input"
-                  placeholder="React, Node.js, Tailwind CSS"
-                />
-              </Field>
-
-              <Field label="Thumbnail URL">
-                <input
-                  name="thumbnail_url"
-                  value={form.thumbnail_url}
-                  onChange={(e) => setForm((f) => ({ ...f, thumbnail_url: e.target.value }))}
-                  className="admin-input"
-                  placeholder="https://..."
-                />
-              </Field>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Live URL">
-                  <input
-                    name="live_url"
-                    value={form.live_url}
-                    onChange={(e) => setForm((f) => ({ ...f, live_url: e.target.value }))}
-                    className="admin-input"
-                    placeholder="https://myproject.com"
-                  />
-                </Field>
-                <Field label="GitHub URL">
-                  <input
-                    name="github_url"
-                    value={form.github_url}
-                    onChange={(e) => setForm((f) => ({ ...f, github_url: e.target.value }))}
-                    className="admin-input"
-                    placeholder="https://github.com/..."
-                  />
-                </Field>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Order Index">
-                  <input
-                    name="order_index"
-                    type="number"
-                    value={form.order_index}
-                    onChange={(e) => setForm((f) => ({ ...f, order_index: e.target.value }))}
-                    className="admin-input"
-                    placeholder="0"
-                  />
-                </Field>
-                <Field label="Featured">
-                  <button
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, featured: !f.featured }))}
-                    className={`h-10 px-4 rounded-xl border text-sm font-medium transition-all ${
-                      form.featured
-                        ? "bg-amber-50 border-amber-200 text-amber-600"
-                        : "bg-white border-[#E8ECF4] text-[#6B7280] hover:border-[#CBD5E1]"
-                    }`}
-                  >
-                    {form.featured ? "★ Featured" : "☆ Not featured"}
-                  </button>
-                </Field>
-              </div>
-            </form>
-
-            <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#F1F3F8] bg-[#FAFBFF]">
-              <button
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 text-sm font-medium text-[#6B7280] hover:text-[#374151] hover:bg-[#F4F6FB] rounded-xl transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={isPending}
-                className="flex items-center gap-2 px-5 py-2 bg-[#1B6BFF] hover:bg-[#1557CC] disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-blue-200"
-              >
-                {isPending && <Loader2 size={14} className="animate-spin" />}
-                {form.id ? "Save Changes" : "Create Project"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Delete Confirmation */}
       {deleteId && (
@@ -481,15 +246,6 @@ function StatCard({ label, value, icon }: { label: string; value: number; color:
         <p className="text-2xl font-bold text-[#111827]">{value}</p>
         <p className="text-xs text-[#9CA3AF] mt-0.5">{label}</p>
       </div>
-    </div>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-[#374151]">{label}</label>
-      {children}
     </div>
   );
 }

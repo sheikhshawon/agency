@@ -14,7 +14,7 @@ const PRODUCTS = [
     id: "enif-crm",
     name: "Enif CRM",
     tagline: "Intelligent Customer Relationship Management",
-    description: "A modern CRM built for the way teams actually work — with AI lead scoring, automated follow-ups, and real-time pipeline visibility.",
+    description: "A modern CRM built for the way teams actually work, with AI lead scoring, automated follow-ups, and real-time pipeline visibility.",
     status: "Available",
     icon: Sparkles,
     features: ["AI Lead Scoring", "Pipeline Automation", "Team Collaboration", "Analytics Dashboard"],
@@ -56,7 +56,7 @@ export default function ProductsPage() {
             badge="Our Products"
             title="Tech Solutions for Modern"
             highlight="Solutions"
-            description="Ready-to-deploy software products built on the same high standards as our custom projects — now available as standalone tools."
+            description="Ready-to-deploy software products built on the same high standards as our custom projects, now available as standalone tools."
           />
         </div>
       </section>

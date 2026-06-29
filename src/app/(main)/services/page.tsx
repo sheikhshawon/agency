@@ -1,82 +1,74 @@
 import type { Metadata } from "next";
-import { Code2, LayoutDashboard, TrendingUp, Palette, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/common/SectionHeading";
-import { SERVICES } from "@/constants/content";
-import CTASection from "@/components/sections/CTASection";
+import { SERVICE_DETAILS } from "@/constants/services";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Explore Enif IT's full range of services: web development, AI automation, business solutions, brand design, and growth marketing.",
-};
-
-const ICON_MAP: Record<string, React.ElementType> = {
-  Code2, LayoutDashboard, TrendingUp, Palette, Sparkles,
+    "Five disciplines. One direction: growth. From your first digital product to a fully automated business operation, we build the systems that move ambitious companies forward.",
 };
 
 export default function ServicesPage() {
   return (
     <>
-      <section className="pt-32 pb-20 relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(27,107,255,0.08) 0%, transparent 70%)" }}
-        />
+      {/* Services grid */}
+      <section className="pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <SectionHeading
-            badge="What We Offer"
-            title="Services Built for"
-            highlight="Growth"
-            description="From idea to execution, we provide end-to-end technology services designed to accelerate your business growth and competitive edge."
+            badge="What We Do"
+            title="Every Solution Your Business Needs to Scale"
+            highlight="Scale"
+            description="Choose a service to explore what we build, how we work, and what outcomes you can expect."
+            className="mb-16"
           />
-        </div>
-      </section>
-
-      <section className="pb-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-16">
-          {SERVICES.map((service, i) => {
-            const Icon = ICON_MAP[service.icon] ?? Sparkles;
-            const isEven = i % 2 === 0;
-            return (
-              <div
-                key={service.id}
-                id={service.id}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${!isEven ? "lg:flex-row-reverse" : ""}`}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SERVICE_DETAILS.map(({ slug, number, icon: Icon, title, short }) => (
+              <Link
+                key={slug}
+                href={`/services/${slug}`}
+                className="group relative flex flex-col p-7 rounded-2xl bg-[#0F0F0F] border border-[#1E1E1E] hover:border-[#1B6BFF]/40 transition-colors"
               >
-                <div className={!isEven ? "lg:order-2" : ""}>
-                  <div className="w-12 h-12 rounded-xl bg-[#1B6BFF]/10 border border-[#1B6BFF]/20 flex items-center justify-center mb-5">
-                    <Icon size={22} className="text-[#1B6BFF]" />
-                  </div>
-                  <span className="text-xs font-semibold text-[#1B6BFF] uppercase tracking-wider">Service 0{i + 1}</span>
-                  <h2 className="mt-2 text-2xl lg:text-3xl font-bold text-white mb-4">{service.title}</h2>
-                  <p className="text-[#A0A0A0] leading-relaxed mb-6">{service.description}</p>
-                  <ul className="grid grid-cols-2 gap-3 mb-7">
-                    {service.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-sm text-[#808080]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#1B6BFF] shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-[#1B6BFF] text-white rounded-xl hover:bg-[#4A8FFF] transition-colors"
-                  >
-                    Start a Project <ArrowRight size={14} />
-                  </Link>
+                <span className="absolute top-6 right-7 text-5xl font-bold text-[#1B6BFF]/10 tabular-nums leading-none">
+                  {number}
+                </span>
+                <div className="w-11 h-11 rounded-xl bg-[#1B6BFF]/10 border border-[#1B6BFF]/20 flex items-center justify-center mb-5">
+                  <Icon size={20} className="text-[#1B6BFF]" />
                 </div>
-                <div className={`aspect-[4/3] rounded-3xl bg-[#0F0F0F] border border-[#1E1E1E] grid-bg flex items-center justify-center ${!isEven ? "lg:order-1" : ""}`}>
-                  <Icon size={64} className="text-[#1B6BFF]/15" />
-                </div>
-              </div>
-            );
-          })}
+                <h3 className="text-lg font-semibold text-white mb-2.5">{title}</h3>
+                <p className="text-sm text-[#808080] leading-relaxed mb-6">{short}</p>
+                <span className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[#1B6BFF]">
+                  Explore Service
+                  <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <CTASection />
+      {/* Bottom CTA */}
+      <section className="pb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center text-center">
+          <SectionHeading
+            title="Not Sure Which Service You Need?"
+            highlight="You Need?"
+            description="Tell us where your business is and where you want it to go. We will identify the highest-impact starting point and build from there."
+            className="max-w-3xl mx-auto"
+          />
+          <Link
+            href="/contact"
+            className="group mt-8 inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#1B6BFF] hover:bg-[#3a7bff] text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-[0_0_28px_rgba(27,107,255,0.35)] hover:shadow-[0_0_48px_rgba(27,107,255,0.55)]"
+          >
+            Talk to Our Team
+            <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+          </Link>
+          <p className="mt-4 text-sm text-[#606060]">
+            No commitment required. First conversation is on us.
+          </p>
+        </div>
+      </section>
     </>
   );
 }

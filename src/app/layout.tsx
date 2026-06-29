@@ -25,7 +25,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Enif IT Services Ltd. — Premium Technology Agency",
+    default: "Enif IT Services Ltd. | Premium Technology Agency",
     template: "%s | Enif IT Services Ltd.",
   },
   description:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://enifit.com",
     siteName: "Enif IT Services Ltd.",
-    title: "Enif IT Services Ltd. — Premium Technology Agency",
+    title: "Enif IT Services Ltd. | Premium Technology Agency",
     description:
       "Growth through smart tech solutions. We engineer digital transformation for ambitious businesses.",
     images: [

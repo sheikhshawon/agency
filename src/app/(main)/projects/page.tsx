@@ -29,7 +29,7 @@ export default async function ProjectsPage() {
             badge="Our Portfolio"
             title="Work We're Proud Of"
             highlight="Proud"
-            description="From startups to enterprises — each project is a story of challenges solved and goals exceeded."
+            description="From startups to enterprises, each project is a story of challenges solved and goals exceeded."
           />
         </div>
       </section>

@@ -37,6 +37,16 @@ export async function getBlogs(): Promise<BlogRow[]> {
   return data ?? [];
 }
 
+export async function getBlogById(id: string): Promise<BlogRow | null> {
+  const supabase = getSupabase();
+  const { data } = await supabase
+    .from("blogs")
+    .select("*")
+    .eq("id", id)
+    .single();
+  return data ?? null;
+}
+
 export async function getBlogBySlug(slug: string): Promise<BlogRow | null> {
   const supabase = getSupabase();
   const { data } = await supabase

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/common/Logo";
+import SubscribeForm from "@/components/layout/SubscribeForm";
 
 function XIcon() {
   return (
@@ -38,7 +39,9 @@ const NAV = [
   { label: "About",        href: "/about" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Projects",     href: "/projects" },
+  { label: "Blog",         href: "/blog" },
   { label: "Contact",      href: "/contact" },
+  { label: "Privacy Policy", href: "/privacy" },
 ];
 
 const SOCIALS = [
@@ -52,6 +55,28 @@ export default function Footer() {
   return (
     <footer style={{ background: "transparent", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="max-w-[1312px] mx-auto px-6 xl:px-0">
+
+        {/* Newsletter row */}
+        <div className="flex items-center justify-between py-10 gap-6 flex-wrap">
+          <div className="max-w-md">
+            <h3
+              className="text-white text-lg font-semibold"
+              style={{ fontFamily: "var(--font-plus-jakarta)" }}
+            >
+              Stay in the loop
+            </h3>
+            <p
+              className="text-[13px] text-white/40 mt-1"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
+              Get occasional updates on what we&apos;re building. No spam, ever.
+            </p>
+          </div>
+          <SubscribeForm />
+        </div>
+
+        {/* Divider */}
+        <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
 
         {/* Main row */}
         <div className="flex items-center justify-between py-8 gap-6 flex-wrap">

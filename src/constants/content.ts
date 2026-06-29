@@ -1,4 +1,4 @@
-import type { Service, Project, CaseStudy, Testimonial, Stat } from "@/types";
+import type { Service, Project, Testimonial, Stat } from "@/types";
 
 export const HERO_STATS: Stat[] = [
   { value: "1000", suffix: "+", label: "Smart Tech Solutions" },
@@ -67,7 +67,7 @@ export const FEATURED_PROJECTS: Project[] = [
   },
   {
     id: "proj-2",
-    title: "PulseHR — HR Management Suite",
+    title: "PulseHR: HR Management Suite",
     description: "Enterprise HR platform serving 5,000+ employees with automated onboarding and performance tracking.",
     category: "Business Solutions",
     image: "/images/projects/pulse-hr.jpg",
@@ -77,40 +77,13 @@ export const FEATURED_PROJECTS: Project[] = [
   },
   {
     id: "proj-3",
-    title: "GrowthOS — Marketing Automation",
+    title: "GrowthOS: Marketing Automation",
     description: "AI-driven marketing automation that increased client lead generation by 340% in 90 days.",
     category: "Marketing & Growth",
     image: "/images/projects/growth-os.jpg",
     tags: ["AI", "Automation", "Analytics"],
     href: "/projects/growth-os",
     year: "2023",
-  },
-];
-
-export const CASE_STUDIES: CaseStudy[] = [
-  {
-    id: "cs-1",
-    client: "Apex Retail Group",
-    title: "How We Scaled Apex's Online Revenue by 340% in 6 Months",
-    challenge: "Legacy platform couldn't handle peak traffic. Conversions dropping. Team overwhelmed.",
-    result: "Full platform rebuild with AI product recommendations and performance optimization.",
-    metric: "340%",
-    metricLabel: "Revenue Growth",
-    industry: "E-Commerce",
-    image: "/images/case-studies/apex-retail.jpg",
-    href: "/case-studies/apex-retail",
-  },
-  {
-    id: "cs-2",
-    client: "MediFlow Clinics",
-    title: "Digitizing 12 Clinic Locations with a Unified Management System",
-    challenge: "Siloed data across 12 locations. Manual scheduling. No unified patient view.",
-    result: "Custom clinic management system with real-time sync across all locations.",
-    metric: "92%",
-    metricLabel: "Process Efficiency",
-    industry: "Healthcare",
-    image: "/images/case-studies/mediflow.jpg",
-    href: "/case-studies/mediflow",
   },
 ];
 
@@ -122,7 +95,7 @@ export const TESTIMONIALS: Testimonial[] = [
     company: "Apex Retail Group",
     avatar: "/images/avatars/james.jpg",
     quote:
-      "Enif IT transformed our digital presence completely. Their team didn't just build a website — they built a growth engine. ROI was visible within the first month.",
+      "Enif IT transformed our digital presence completely. Their team didn't just build a website, they built a growth engine. ROI was visible within the first month.",
     rating: 5,
   },
   {

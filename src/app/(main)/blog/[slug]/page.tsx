@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, Calendar, User, Tag } from "lucide-react";
 import { getBlogBySlug, getPublishedBlogs } from "@/app/admin/blog/actions";
+import { renderMarkdown } from "@/lib/markdown";
 import CTASection from "@/components/sections/CTASection";
 
 export const dynamic = "force-dynamic";
@@ -107,13 +108,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
 
         {/* Content */}
         {post.content ? (
-          <div className="prose-enif">
-            {post.content.split("\n\n").map((para, i) => (
-              <p key={i} className="text-[#A0A0A0] leading-relaxed text-base mb-5">
-                {para}
-              </p>
-            ))}
-          </div>
+          <div className="prose-enif">{renderMarkdown(post.content)}</div>
         ) : (
           <p className="text-[#606060] italic">No content available.</p>
         )}
