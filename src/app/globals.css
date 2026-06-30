@@ -57,11 +57,39 @@ body {
   overflow-x: hidden;
 }
 
-/* Consistent paragraph styling site-wide */
-p {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-size: 1.0625rem;   /* 17px */
-  line-height: 1.75;
+/* ─── Global Typography System ──────────────────────────────────────
+   Brand voice (from the Figma design system):
+     • Display / headings → Plus Jakarta Sans  (--font-plus-jakarta)
+     • Body copy          → DM Sans            (--font-dm-sans)
+     • Labels / eyebrows  → Poppins            (--font-poppins, see .badge)
+
+   Declared inside `@layer base` so Tailwind utilities (font-bold,
+   text-3xl, tracking-tight, leading-*, font-label, …) and inline
+   styles continue to win. This gives every heading the brand display
+   font by default — previously headings without an explicit font (e.g.
+   SectionHeading) silently fell back to DM Sans, the body font.        */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  /* Largest display heading sits a touch tighter */
+  h1 {
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* Body copy — comfortable reading defaults that utilities override */
+  p {
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
+    font-size: 1.0625rem;   /* 17px */
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
 }
 
 /* Media never overflows its container on small screens */
