@@ -39,7 +39,11 @@ function LogoIcon({ type }: { type: string|null }) {
   return null;
 }
 
-export default function MarqueeSection() {
+type Partner = { name: string; logo_url: string; link_url: string | null };
+
+export default function MarqueeSection({ partners = [] }: { partners?: Partner[] }) {
+  const hasPartners = partners.length > 0;
+
   return (
     <section style={{
       position:"relative", padding:"40px 0", overflow:"hidden",
@@ -73,23 +77,46 @@ export default function MarqueeSection() {
           <div key={copy}
             style={{
               display:"flex", alignItems:"center", gap:64, flexShrink:0, whiteSpace:"nowrap",
+              paddingRight:64,
               animation:"marquee 32s linear infinite",
             }}
           >
-            {LOGOS.map((logo, i) => (
-              <span key={i} style={{
-                display:"inline-flex", alignItems:"center", gap:7,
-                fontFamily: logo.weight >= 700 ? "var(--font-poppins)" : "var(--font-dm-sans)",
-                fontSize:15,
-                fontWeight:logo.weight,
-                letterSpacing:logo.spacing,
-                color:"rgba(255,255,255,0.25)",
-                userSelect:"none",
-              }}>
-                <LogoIcon type={logo.icon} />
-                {logo.text}
-              </span>
-            ))}
+            {hasPartners
+              ? partners.map((p, i) => {
+                  const img = (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.logo_url}
+                      alt={p.name}
+                      style={{
+                        height:44, width:"auto", objectFit:"contain",
+                        transition:"opacity .2s",
+                      }}
+                    />
+                  );
+                  return p.link_url ? (
+                    <a key={i} href={p.link_url} target="_blank" rel="noopener noreferrer"
+                      style={{ display:"inline-flex", alignItems:"center" }} aria-label={p.name}>
+                      {img}
+                    </a>
+                  ) : (
+                    <span key={i} style={{ display:"inline-flex", alignItems:"center" }}>{img}</span>
+                  );
+                })
+              : LOGOS.map((logo, i) => (
+                  <span key={i} style={{
+                    display:"inline-flex", alignItems:"center", gap:7,
+                    fontFamily: logo.weight >= 700 ? "var(--font-poppins)" : "var(--font-dm-sans)",
+                    fontSize:15,
+                    fontWeight:logo.weight,
+                    letterSpacing:logo.spacing,
+                    color:"rgba(255,255,255,0.25)",
+                    userSelect:"none",
+                  }}>
+                    <LogoIcon type={logo.icon} />
+                    {logo.text}
+                  </span>
+                ))}
           </div>
         ))}
       </div>

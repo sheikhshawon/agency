@@ -5,13 +5,16 @@ import FeaturesSection from "@/components/sections/FeaturesSection";
 import WhyUsSection from "@/components/sections/WhyUsSection";
 import FAQSection from "@/components/sections/FAQSection";
 import CTABanner from "@/components/sections/CTABanner";
+import { getPartners } from "@/app/admin/partners/actions";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const partners = await getPartners();
+
   return (
     <>
       <Hero />
       <AboutSection />
-      <MarqueeSection />
+      <MarqueeSection partners={partners} />
       <FeaturesSection />
       <WhyUsSection />
       <FAQSection />
