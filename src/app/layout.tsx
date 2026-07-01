@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Sans, Poppins } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
+
+// GA4 Measurement ID — set NEXT_PUBLIC_GA_ID in your environment to enable.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -89,6 +93,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-[#04051B] text-white">
         {children}
       </body>
+      {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
     </html>
   );
 }

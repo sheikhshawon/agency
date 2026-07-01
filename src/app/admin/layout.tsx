@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut } from "lucide-react";
+import { LayoutDashboard, Activity, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getUnreadCount } from "@/app/admin/messages/actions";
 import { logout } from "@/app/admin/login/actions";
 
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Analytics", href: "/admin/analytics", icon: Activity },
   { label: "Projects", href: "/admin/projects", icon: FolderKanban },
   { label: "Case Studies", href: "/admin/case-studies", icon: BarChart3 },
   { label: "Blog", href: "/admin/blog", icon: FileText },
