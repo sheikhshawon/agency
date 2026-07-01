@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Activity, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,9 +48,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Logo */}
         <div className="h-16 flex items-center gap-3 px-5 border-b border-[#E8ECF4]">
-          <div className="w-8 h-8 rounded-lg bg-[#1B6BFF] flex items-center justify-center shrink-0">
-            <span className="text-white text-xs font-bold">E</span>
-          </div>
+          <Image
+            src="/images/logo/enif-favicon-dark.png"
+            alt="Enif IT"
+            width={32}
+            height={32}
+            className="object-contain shrink-0"
+            priority
+          />
           <div>
             <p className="text-sm font-bold text-[#111827] leading-tight">Enif IT</p>
             <p className="text-[10px] text-[#9CA3AF]">Admin Panel</p>

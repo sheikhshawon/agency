@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/common/Logo";
 import SubscribeForm from "@/components/layout/SubscribeForm";
+import { getSettings } from "@/app/admin/settings/actions";
 
 function XIcon() {
   return (
@@ -44,14 +45,19 @@ const NAV = [
   { label: "Privacy Policy", href: "/privacy" },
 ];
 
-const SOCIALS = [
-  { Icon: LIIcon, href: "#", label: "LinkedIn" },
-  { Icon: FBIcon, href: "#", label: "Facebook" },
-  { Icon: XIcon,  href: "#", label: "Twitter/X" },
-  { Icon: IGIcon, href: "#", label: "Instagram" },
-];
+export default async function Footer() {
+  const settings = await getSettings();
 
-export default function Footer() {
+  // Only show a social icon when its URL is configured in Settings.
+  const SOCIALS = [
+    { Icon: LIIcon, href: settings.linkedin_url,  label: "LinkedIn" },
+    { Icon: FBIcon, href: settings.facebook_url,  label: "Facebook" },
+    { Icon: XIcon,  href: settings.twitter_url,   label: "Twitter/X" },
+    { Icon: IGIcon, href: settings.instagram_url, label: "Instagram" },
+  ].filter((s) => s.href);
+
+  const siteName = settings.site_name || "Enif IT Services Ltd.";
+
   return (
     <footer style={{ background: "transparent", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="max-w-[1312px] mx-auto px-6 xl:px-0">
@@ -121,7 +127,7 @@ export default function Footer() {
         <div className="py-5 text-center">
           <p className="text-[12px] text-white/25"
             style={{ fontFamily: "var(--font-dm-sans)" }}>
-            Copyright © 2026 Enif IT Services Ltd. All Rights Reserved. &nbsp;|&nbsp; enifit.com
+            Copyright © 2026 {siteName}. All Rights Reserved. &nbsp;|&nbsp; enifit.com
           </p>
         </div>
       </div>

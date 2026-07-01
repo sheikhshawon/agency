@@ -2,20 +2,27 @@ import type { Metadata } from "next";
 import { Mail, Phone, MapPin, MessageSquare, Clock } from "lucide-react";
 import SectionHeading from "@/components/common/SectionHeading";
 import ContactForm from "@/components/layout/ContactForm";
+import { getSettings } from "@/app/admin/settings/actions";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Enif IT Services Ltd. Let's build something great together.",
 };
 
-const CONTACT_INFO = [
-  { icon: Mail, label: "Email Us", value: "hello@enifit.com", href: "mailto:hello@enifit.com" },
-  { icon: Phone, label: "Call Us", value: "+880 1234-567 890", href: "tel:+8801234567890" },
-  { icon: MapPin, label: "Visit Us", value: "Dhaka, Bangladesh", href: "#" },
-  { icon: Clock, label: "Working Hours", value: "Sun–Thu, 9 AM – 6 PM", href: "#" },
-];
+export default async function ContactPage() {
+  const settings = await getSettings();
 
-export default function ContactPage() {
+  const email = settings.contact_email || "hello@enifit.com";
+  const phone = settings.phone || "+880 1234-567 890";
+  const address = settings.address || "Dhaka, Bangladesh";
+
+  const CONTACT_INFO = [
+    { icon: Mail, label: "Email Us", value: email, href: `mailto:${email}` },
+    { icon: Phone, label: "Call Us", value: phone, href: `tel:${phone.replace(/[^+\d]/g, "")}` },
+    { icon: MapPin, label: "Visit Us", value: address, href: null },
+    { icon: Clock, label: "Working Hours", value: "Sun–Thu, 9 AM – 6 PM", href: null },
+  ];
+
   return (
     <>
       <section className="pt-32 pb-20 relative overflow-hidden">
@@ -45,21 +52,37 @@ export default function ContactPage() {
               </p>
             </div>
             <div className="flex flex-col gap-4">
-              {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-[#0F0F0F] border border-[#1E1E1E] hover:border-[#1B6BFF]/30 transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-[#1B6BFF]/10 border border-[#1B6BFF]/20 flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-[#1B6BFF]" />
+              {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => {
+                const inner = (
+                  <>
+                    <div className="w-10 h-10 rounded-lg bg-[#1B6BFF]/10 border border-[#1B6BFF]/20 flex items-center justify-center shrink-0">
+                      <Icon size={16} className="text-[#1B6BFF]" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-[#606060] font-medium mb-0.5">{label}</p>
+                      <p className="text-sm text-white font-medium group-hover:text-[#1B6BFF] transition-colors">{value}</p>
+                    </div>
+                  </>
+                );
+
+                // Email/phone are links; address and working hours are plain info.
+                return href ? (
+                  <a
+                    key={label}
+                    href={href}
+                    className="flex items-start gap-4 p-4 rounded-xl bg-[#0F0F0F] border border-[#1E1E1E] hover:border-[#1B6BFF]/30 transition-colors group"
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div
+                    key={label}
+                    className="flex items-start gap-4 p-4 rounded-xl bg-[#0F0F0F] border border-[#1E1E1E]"
+                  >
+                    {inner}
                   </div>
-                  <div>
-                    <p className="text-xs text-[#606060] font-medium mb-0.5">{label}</p>
-                    <p className="text-sm text-white font-medium group-hover:text-[#1B6BFF] transition-colors">{value}</p>
-                  </div>
-                </a>
-              ))}
+                );
+              })}
             </div>
             <div className="p-5 rounded-2xl bg-[#1B6BFF]/5 border border-[#1B6BFF]/15">
               <div className="flex items-center gap-2 mb-2">
