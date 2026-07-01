@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used for reads of public project content.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,7 +66,7 @@ export async function getProjects(): Promise<ProjectRow[]> {
 
 export async function createProject(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
 
   const tagsRaw = (formData.get("tags") as string) ?? "";
   const tags = tagsRaw
@@ -92,7 +94,7 @@ export async function createProject(formData: FormData) {
 
 export async function updateProject(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
 
   const tagsRaw = (formData.get("tags") as string) ?? "";
@@ -124,7 +126,7 @@ export async function updateProject(formData: FormData) {
 
 export async function deleteProject(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
 
   const { error } = await supabase.from("projects").delete().eq("id", id);

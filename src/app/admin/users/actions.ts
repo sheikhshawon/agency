@@ -1,15 +1,12 @@
 "use server";
 
-import { createClient } from "@supabase/supabase-js";
 import { scryptSync, randomBytes, timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
-function getSupabase() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-}
+// admin_users holds password hashes — always use the privileged (service-role)
+// client so the public anon key can be locked out of this table entirely.
+const getSupabase = getSupabaseAdmin;
 
 // password_hash is intentionally excluded — it must never reach the client.
 export type AdminUserRow = {

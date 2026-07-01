@@ -1,12 +1,24 @@
 import { createHmac, timingSafeEqual } from "crypto";
 
-// Secret used to sign the admin session cookie. Set ADMIN_SESSION_SECRET in
-// your environment for production; it falls back to the Supabase anon key
-// (already present in this project) so auth works out of the box in dev.
-const SECRET =
-  process.env.ADMIN_SESSION_SECRET ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "enif-admin-dev-secret-change-me";
+// Secret used to sign the admin session cookie.
+//
+// SECURITY: this must be a private, high-entropy value. It is NEVER allowed to
+// fall back to a NEXT_PUBLIC_* value — those ship to the browser, so signing
+// sessions with one would let anyone forge a valid admin cookie and bypass
+// login. Set ADMIN_SESSION_SECRET (min 32 chars) in production; a fixed dev
+// secret is used only when NODE_ENV !== "production".
+const DEV_FALLBACK_SECRET = "enif-admin-dev-only-secret-not-for-production";
+
+function getSecret(): string {
+  const secret = process.env.ADMIN_SESSION_SECRET;
+  if (secret && secret.length >= 32) return secret;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "ADMIN_SESSION_SECRET must be set to a private random value of at least 32 characters in production."
+    );
+  }
+  return DEV_FALLBACK_SECRET;
+}
 
 export const SESSION_COOKIE = "admin_session";
 export const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days (seconds)
@@ -19,7 +31,7 @@ export type SessionPayload = {
 };
 
 function sign(body: string): string {
-  return createHmac("sha256", SECRET).update(body).digest("base64url");
+  return createHmac("sha256", getSecret()).update(body).digest("base64url");
 }
 
 /** Create a tamper-proof session token: base64url(payload).hmacSignature */

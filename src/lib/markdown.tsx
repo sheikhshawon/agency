@@ -7,6 +7,16 @@ import React from "react";
  * Output is styled for the dark site theme.
  */
 
+/**
+ * Only allow safe link protocols. Blocks javascript:, data:, vbscript: etc.
+ * that could execute script when a reader clicks a link in post content.
+ */
+function safeHref(raw: string): string {
+  const href = raw.trim();
+  if (/^(https?:|mailto:|tel:|\/|#)/i.test(href)) return href;
+  return "#";
+}
+
 function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   const regex = /(\*\*([^*]+)\*\*|\*([^*]+)\*|\[([^\]]+)\]\(([^)]+)\))/g;
@@ -28,7 +38,7 @@ function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
       nodes.push(
         <a
           key={`${keyPrefix}-a-${i}`}
-          href={m[5]}
+          href={safeHref(m[5])}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#1B6BFF] underline underline-offset-2 hover:text-[#4A8FFF]"

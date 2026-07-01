@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used ONLY for the public newsletter subscribe insert.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -43,7 +45,7 @@ export async function subscribe(formData: FormData): Promise<SubscribeResult> {
 }
 
 export async function getSubscribers(): Promise<SubscriberRow[]> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from("subscribers")
     .select("*")
@@ -55,7 +57,7 @@ export async function getSubscribers(): Promise<SubscriberRow[]> {
 
 export async function deleteSubscriber(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
 
   const { error } = await supabase.from("subscribers").delete().eq("id", id);

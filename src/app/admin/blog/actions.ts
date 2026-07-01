@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used for reads of published blog content.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -70,7 +72,7 @@ export async function getPublishedBlogs(): Promise<BlogRow[]> {
 
 export async function createBlog(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
 
   const tags = ((formData.get("tags") as string) ?? "")
     .split(",").map((t) => t.trim()).filter(Boolean);
@@ -99,7 +101,7 @@ export async function createBlog(formData: FormData) {
 
 export async function updateBlog(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
 
   const tags = ((formData.get("tags") as string) ?? "")
@@ -133,7 +135,7 @@ export async function updateBlog(formData: FormData) {
 
 export async function deleteBlog(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
   const { error } = await supabase.from("blogs").delete().eq("id", id);
   if (error) throw new Error(error.message);

@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used ONLY for the public read of site settings.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -82,7 +84,7 @@ export async function updateSettings(formData: FormData): Promise<SaveResult> {
     return { success: false, message: "Please enter a valid contact email address." };
   }
 
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase
     .from("site_settings")
     .upsert({ id: 1, ...payload, updated_at: new Date().toISOString() });

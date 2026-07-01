@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used ONLY for the public contact-form insert.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -62,7 +64,7 @@ export async function submitMessage(formData: FormData): Promise<SubmitResult> {
 
 // ── Admin: read & manage ─────────────────────────────────────────
 export async function getMessages(): Promise<ContactMessageRow[]> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from("contact_messages")
     .select("*")
@@ -73,7 +75,7 @@ export async function getMessages(): Promise<ContactMessageRow[]> {
 }
 
 export async function getUnreadCount(): Promise<number> {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { count, error } = await supabase
     .from("contact_messages")
     .select("*", { count: "exact", head: true })
@@ -87,7 +89,7 @@ export async function setMessageRead(formData: FormData) {
   const id = formData.get("id") as string;
   const isRead = formData.get("is_read") === "true";
 
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase
     .from("contact_messages")
     .update({ is_read: isRead })
@@ -99,7 +101,7 @@ export async function setMessageRead(formData: FormData) {
 }
 
 export async function markAllRead() {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase
     .from("contact_messages")
     .update({ is_read: true })
@@ -112,7 +114,7 @@ export async function markAllRead() {
 
 export async function deleteMessage(formData: FormData) {
   const id = formData.get("id") as string;
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase.from("contact_messages").delete().eq("id", id);
 
   if (error) throw new Error(error.message);

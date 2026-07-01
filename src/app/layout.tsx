@@ -27,7 +27,12 @@ const poppins = Poppins({
   display: "swap",
 });
 
+// Base URL for resolving relative OG/Twitter image paths to absolute URLs.
+// Set NEXT_PUBLIC_SITE_URL to your production domain (e.g. https://enifit.com).
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://enifit.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Enif IT Services Ltd. | Premium Technology Agency",
     template: "%s | Enif IT Services Ltd.",
@@ -67,6 +72,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Enif IT Services Ltd.",
     description: "Growth through smart tech solutions.",
+    images: ["/images/og-image.png"],
+  },
+  alternates: {
+    canonical: "/",
   },
   robots: {
     index: true,

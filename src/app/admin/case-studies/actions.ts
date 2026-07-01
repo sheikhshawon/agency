@@ -2,7 +2,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
+// Public anon client — used for reads of published case-study content.
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -92,7 +94,7 @@ function parseForm(formData: FormData) {
 
 export async function createCaseStudy(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase.from("case_studies").insert(parseForm(formData));
   if (error) throw new Error(error.message);
   revalidatePath("/admin/case-studies");
@@ -101,7 +103,7 @@ export async function createCaseStudy(formData: FormData) {
 
 export async function updateCaseStudy(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
   const { error } = await supabase.from("case_studies").update(parseForm(formData)).eq("id", id);
   if (error) throw new Error(error.message);
@@ -112,7 +114,7 @@ export async function updateCaseStudy(formData: FormData) {
 
 export async function deleteCaseStudy(formData: FormData) {
   "use server";
-  const supabase = getSupabase();
+  const supabase = getSupabaseAdmin();
   const id = formData.get("id") as string;
   const { error } = await supabase.from("case_studies").delete().eq("id", id);
   if (error) throw new Error(error.message);
