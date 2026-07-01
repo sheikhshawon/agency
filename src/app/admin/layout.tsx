@@ -4,17 +4,20 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Activity, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut } from "lucide-react";
+import { LayoutDashboard, Activity, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getUnreadCount } from "@/app/admin/messages/actions";
 import { logout } from "@/app/admin/login/actions";
 
-const NAV = [
+type NavChild = { label: string; href: string };
+type NavItem = { label: string; href: string; icon: typeof LayoutDashboard; children?: NavChild[] };
+
+const NAV: NavItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Analytics", href: "/admin/analytics", icon: Activity },
-  { label: "Projects", href: "/admin/projects", icon: FolderKanban },
-  { label: "Case Studies", href: "/admin/case-studies", icon: BarChart3 },
-  { label: "Blog", href: "/admin/blog", icon: FileText },
+  { label: "Projects", href: "/admin/projects", icon: FolderKanban, children: [{ label: "New", href: "/admin/projects/new" }] },
+  { label: "Case Studies", href: "/admin/case-studies", icon: BarChart3, children: [{ label: "New", href: "/admin/case-studies/new" }] },
+  { label: "Blog", href: "/admin/blog", icon: FileText, children: [{ label: "New", href: "/admin/blog/new" }] },
   { label: "Messages", href: "/admin/messages", icon: Inbox },
   { label: "Subscribers", href: "/admin/subscribers", icon: Mail },
   { label: "Users", href: "/admin/users", icon: Users },
@@ -67,28 +70,55 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p className="px-3 mb-2 text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-widest">
             Main Menu
           </p>
-          {NAV.map(({ label, href, icon: Icon }) => {
-            const active = pathname === href || (href !== "/admin" && pathname.startsWith(href));
+          {NAV.map(({ label, href, icon: Icon, children }) => {
+            const inSection = pathname === href || (href !== "/admin" && pathname.startsWith(href));
+            // The parent is "active" for its own list page, not when a child route is open.
+            const active = inSection && !children?.some((c) => pathname === c.href);
             return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
-                  active
-                    ? "bg-[#EEF3FF] text-[#1B6BFF]"
-                    : "text-[#6B7280] hover:text-[#111827] hover:bg-[#F4F6FB]"
+              <div key={href}>
+                <Link
+                  href={href}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+                    active
+                      ? "bg-[#EEF3FF] text-[#1B6BFF]"
+                      : "text-[#6B7280] hover:text-[#111827] hover:bg-[#F4F6FB]"
+                  )}
+                >
+                  <Icon size={16} />
+                  <span className="flex-1">{label}</span>
+                  {href === "/admin/messages" && unread > 0 && (
+                    <span className="min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold">
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                  )}
+                  {active && <ChevronRight size={13} className="text-[#1B6BFF]/50" />}
+                </Link>
+
+                {/* Sub-menu: shown while its section is open */}
+                {children && inSection && (
+                  <div className="mt-0.5 mb-1 ml-[26px] pl-3 border-l border-[#E8ECF4] flex flex-col gap-0.5">
+                    {children.map((child) => {
+                      const childActive = pathname === child.href;
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className={cn(
+                            "flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-all",
+                            childActive
+                              ? "bg-[#EEF3FF] text-[#1B6BFF]"
+                              : "text-[#6B7280] hover:text-[#111827] hover:bg-[#F4F6FB]"
+                          )}
+                        >
+                          <Plus size={13} className="shrink-0" />
+                          <span className="flex-1">{child.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 )}
-              >
-                <Icon size={16} />
-                <span className="flex-1">{label}</span>
-                {href === "/admin/messages" && unread > 0 && (
-                  <span className="min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold">
-                    {unread > 99 ? "99+" : unread}
-                  </span>
-                )}
-                {active && <ChevronRight size={13} className="text-[#1B6BFF]/50" />}
-              </Link>
+              </div>
             );
           })}
         </nav>

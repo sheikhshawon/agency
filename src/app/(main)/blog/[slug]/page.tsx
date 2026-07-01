@@ -5,6 +5,9 @@ import { ArrowLeft, Clock, Calendar, User, Tag } from "lucide-react";
 import { getBlogBySlug, getPublishedBlogs } from "@/app/admin/blog/actions";
 import { renderMarkdown } from "@/lib/markdown";
 import CTASection from "@/components/sections/CTASection";
+import ShareButtons from "@/components/common/ShareButtons";
+import CommentSection from "@/components/blog/CommentSection";
+import { getComments } from "@/app/(main)/blog/comment-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,8 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   ]);
 
   if (!post) notFound();
+
+  const comments = await getComments(post.id);
 
   const related = allPosts
     .filter((p) => p.id !== post.id && p.category === post.category)
@@ -129,7 +134,15 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
             </div>
           </div>
         )}
+
+        {/* Share */}
+        <div className="mt-10 pt-8 border-t border-[#1A1A1A]">
+          <ShareButtons title={post.title} label="Share this article" />
+        </div>
       </article>
+
+      {/* Comments */}
+      <CommentSection blogId={post.id} slug={post.slug} initial={comments} />
 
       {/* Related posts */}
       {related.length > 0 && (

@@ -74,7 +74,7 @@ export default function CaseStudyForm({ initial }: { initial?: CaseStudyRow }) {
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-4xl">
+    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4">

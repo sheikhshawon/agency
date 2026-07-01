@@ -8,6 +8,7 @@ import {
 } from "@/app/admin/case-studies/actions";
 import { renderMarkdown } from "@/lib/markdown";
 import CTASection from "@/components/sections/CTASection";
+import ShareButtons from "@/components/common/ShareButtons";
 
 export const dynamic = "force-dynamic";
 
@@ -113,6 +114,13 @@ export default async function CaseStudyDetailPage({
           <div className="prose-enif">{renderMarkdown(cs.body)}</div>
         </article>
       )}
+
+      {/* Share */}
+      <section className="max-w-4xl mx-auto px-6 lg:px-8 pb-16">
+        <div className="pt-8 border-t border-[#1A1A1A]">
+          <ShareButtons title={cs.title} label="Share this case study" />
+        </div>
+      </section>
 
       {/* Related */}
       {related.length > 0 && (
