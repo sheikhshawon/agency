@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "@/components/common/Logo";
 import SubscribeForm from "@/components/layout/SubscribeForm";
 import { getSettings } from "@/app/admin/settings/actions";
+import { getMenu } from "@/app/admin/menu/actions";
 
 function XIcon() {
   return (
@@ -35,18 +36,8 @@ function LIIcon() {
   );
 }
 
-const NAV = [
-  { label: "Home",         href: "/" },
-  { label: "About",        href: "/about" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Projects",     href: "/projects" },
-  { label: "Blog",         href: "/blog" },
-  { label: "Contact",      href: "/contact" },
-  { label: "Privacy Policy", href: "/privacy" },
-];
-
 export default async function Footer() {
-  const settings = await getSettings();
+  const [settings, NAV] = await Promise.all([getSettings(), getMenu("footer")]);
 
   // Only show a social icon when its URL is configured in Settings.
   const SOCIALS = [

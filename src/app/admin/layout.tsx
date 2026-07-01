@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Activity, Files, FolderKanban, FileText, BarChart3, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut, Plus } from "lucide-react";
+import { LayoutDashboard, Activity, Files, FolderKanban, FileText, BarChart3, Image as ImageIcon, Menu as MenuIcon, Mail, Inbox, Bell, Users, Settings, ArrowUpRight, ChevronRight, LogOut, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getUnreadCount } from "@/app/admin/messages/actions";
 import { logout } from "@/app/admin/login/actions";
@@ -16,9 +16,11 @@ const NAV: NavItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Analytics", href: "/admin/analytics", icon: Activity },
   { label: "Pages", href: "/admin/pages", icon: Files },
+  { label: "Menu", href: "/admin/menu", icon: MenuIcon },
   { label: "Projects", href: "/admin/projects", icon: FolderKanban, children: [{ label: "New", href: "/admin/projects/new" }] },
   { label: "Case Studies", href: "/admin/case-studies", icon: BarChart3, children: [{ label: "New", href: "/admin/case-studies/new" }] },
   { label: "Blog", href: "/admin/blog", icon: FileText, children: [{ label: "New", href: "/admin/blog/new" }] },
+  { label: "Media", href: "/admin/media", icon: ImageIcon },
   { label: "Messages", href: "/admin/messages", icon: Inbox },
   { label: "Subscribers", href: "/admin/subscribers", icon: Mail },
   { label: "Users", href: "/admin/users", icon: Users },

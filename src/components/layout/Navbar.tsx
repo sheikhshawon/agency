@@ -8,7 +8,9 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/common/Logo";
 
-const NAV_LINKS = [
+type NavLink = { label: string; href: string };
+
+const DEFAULT_NAV_LINKS: NavLink[] = [
   { label: "Home",         href: "/" },
   { label: "About",        href: "/about" },
   { label: "Services",     href: "/services" },
@@ -16,7 +18,8 @@ const NAV_LINKS = [
   { label: "Contact",      href: "/contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ items }: { items?: NavLink[] }) {
+  const NAV_LINKS = items && items.length > 0 ? items : DEFAULT_NAV_LINKS;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
